@@ -1,0 +1,20 @@
+#!/bin/sh
+. /etc/rc.common
+
+StartService ()
+{
+    ConsoleMessage "Running SpoofMAC script."
+    python /Users/feross/Scripts/SpoofMAC/SpoofMAC.py
+}
+
+StopService ()
+{
+    return 0
+}
+
+RestartService ()
+{
+    return 0
+}
+
+RunService "$1"
