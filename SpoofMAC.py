@@ -45,7 +45,6 @@ def setMACAddress(interface, address):
 
 	# Print result
 	newAddress = getMACAddress(interface)
-	print newAddress
 	hardwareAddress = getMACAddress(interface, hardware=True)
 	res = "Changed {} (h/w: {}) from {} to {}."
 	res = res.format(interface, hardwareAddress, oldAddress, newAddress)
