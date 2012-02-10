@@ -23,10 +23,10 @@ Instead of doing that, just run this Python script and change your MAC address i
 If you want to automatically change your MAC address on computer startup, then do the following:
 
 1. Make a folder called /Library/StartupItems/SpoofMAC
-2. Add `SpoofMAC`, `SpoofMAC.py`, and `StartupParameters.plist` to the folder.
-3. chown all three files to `root:wheel`.
-4. chmod `SpoofMAC` and `SpoofMAC.py` to `0755`.
-5. chmod `StartupParameters.plist` to 0644.
+2. Add `SpoofMAC` and `StartupParameters.plist` to the folder.
+3. chown the files to `root:wheel`.
+4. chmod `SpoofMAC` to `0755` and `StartupParameters.plist` to 0644.
+5. Update the path in `SpoofMAC` to the location of the `SpoofMAC.py` file. (I keep mine in ~/Scripts for easy editing)
 
 Also, don't forget to set the `WIRELESS_INTERFACE` and `WIRED_INTERFACE` variables at the top of `SpoofMac.py`!
 
