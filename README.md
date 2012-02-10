@@ -10,7 +10,7 @@ Instead of doing that, just run this Python script and change your MAC address i
 
 ### From the terminal, run:
 
-`sudo python SpoofMAC.py <interface> <mac_address>` (For <interface>, use `en0` for wired ethernet and `en1` for wireless)
+`sudo python SpoofMAC.py <interface> <mac_address>` (For `<interface>`, use `en0` for wired ethernet and `en1` for wireless)
 
 ### Example:
 
