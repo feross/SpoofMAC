@@ -2,6 +2,22 @@
 
 ### Tested on Lion 10.7, but should work on 10.6 and 10.5 with slight modifications.
 
+Something I've needed to do from time to time is **spoof my computer's MAC address**. This is useful for debugging network issues or temporarily getting onto the Stanford Wi-Fi network when my physical MAC address changes, such as when [Apple replaced my logic board](http://www.quora.com/Is-AppleCare-worth-the-$350/answer/Feross-Aboukhadijeh) (motherboard).
+
+For the uninitiated, a **Media Access Control address** (MAC address) is "a unique identifier assigned to network interfaces for communications on the physical network segment". You can [read more on Wikipedia](http://en.wikipedia.org/wiki/MAC_address).
+
+Despite the fact that all network devices (laptops, iPhones, routers, etc.) have physical MAC addresses burned into the hardware, you can actually change (or spoof) your MAC address **completely in software**, and other network devices will only see your spoofed address.
+
+# Other Solutions Sucked
+
+I was disappointed with the Mac OS X offering in this area. None of the existing stuff worked well. The biggest annoyance with most of the solutions I found was that the Wi-Fi card (Airport) needs to be *manually* disassociated from any connected networks, in order for the change to be applied correctly. Doing this manually every time is annoying.
+
+# My Solution
+
+So, I made a Python script that lets you change your MAC address in one command. **[Check it out and download it from Github.](https://github.com/feross/SpoofMAC)** Improvements welcome!
+
+I tested it on Lion 10.7, but should work on 10.6 and 10.5 with slight modifications.
+
 ## Usage
 
 **Note:** Use `en0` for wired ethernet and `en1` for wireless
