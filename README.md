@@ -2,17 +2,15 @@
 
 ### Tested on Lion 10.7, but should work on 10.6 and 10.5 with slight modifications.
 
-I made this because changing your MAC address in Mac OS X is harder than it should be. The biggest annoyance is that the Wi-Fi card (Airport) needs to be *manually* disassociated from any connected networks in order for the change to be applied correctly. Doing this manually every time is tedius and lame.
+I made this because changing your MAC address in Mac OS X is harder than it should be. The biggest annoyance is that the Wi-Fi card (Airport) needs to be *manually* disassociated from any connected networks in order for the change to be applied correctly. Doing this manually every time is tedious and lame.
 
 Instead of doing that, just run this Python script and change your MAC address in one command.
 
 ## Usage
 
-**Note:** Use `en0` for wired ethernet and `en1` for wireless
-
 ### From the terminal, run:
 
-`sudo python SpoofMAC.py <interface> <mac_address>`
+`sudo python SpoofMAC.py <interface> <mac_address>` (For <interface>, use `en0` for wired ethernet and `en1` for wireless)
 
 ### Example:
 
