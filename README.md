@@ -10,7 +10,9 @@ Instead of doing that, just run this Python script and change your MAC address i
 
 ### From the terminal, run:
 
-`sudo python SpoofMAC.py <interface> <mac_address>` (For `<interface>`, use `en0` for wired ethernet and `en1` for wireless)
+`sudo python SpoofMAC.py <interface> <mac_address>` (For `<interface>`, use `en0` for wired or `en1` for wireless)
+
+Note that `sudo` is required because this script runs `ifconfig` which requires admin privledges to change the MAC address.
 
 ### Example:
 
@@ -23,16 +25,17 @@ Instead of doing that, just run this Python script and change your MAC address i
 If you want to automatically change your MAC address on computer startup, then do the following:
 
 1. Make a folder called /Library/StartupItems/SpoofMAC
-2. Add `SpoofMAC` and `StartupParameters.plist` to the folder.
+2. Copy `SpoofMAC` and `StartupParameters.plist` from this repo to the folder you just created.
 3. chown the files to `root:wheel`.
 4. chmod `SpoofMAC` to `0755` and `StartupParameters.plist` to 0644.
 5. Update the path in `SpoofMAC` to the location of the `SpoofMAC.py` file. (I keep mine in ~/Scripts for easy editing)
 
-Also, don't forget to set the `WIRELESS_INTERFACE` and `WIRED_INTERFACE` variables at the top of `SpoofMac.py`!
+Also, don't forget to set the `WIRELESS_INTERFACE` and `WIRED_INTERFACE` variables at the top of `SpoofMac.py` to whatever you want your MAC address to be!
 
 **That's it!** Improvements welcome!
 
-## For reference
+## Handy links for reference
+
 * <http://synergy2.sourceforge.net/autostart.html>
 * <http://www.macos.utah.edu/documentation/programming_and_scripting/login_and_logout_scripts/mainColumnParagraphs/00/document/20030219-Scripts.pdf>
 * <https://support.apple.com/kb/HT2413>
