@@ -62,7 +62,9 @@ if __name__ == "__main__":
 		interface = sys.argv[1]
 		address = sys.argv[2]
 		setMACAddress(interface, address)
-
+	elif sys.argv[1] == "-h":
+		print "sudo python SpoofMAC.py <interface> <mac_address> (For <interface>, use en0 for wired or en1 for wireless)"
+		print "Example: sudo python SpoofMAC.py en1 12:12:12:12:12:12"
 	else:
 		print "Wrong number of arguments."
 
