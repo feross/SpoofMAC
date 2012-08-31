@@ -20,17 +20,30 @@ Note that `sudo` is required because this script runs `ifconfig` which requires 
 
 ## Optional: Run automatically on startup
 
-### Installation Instructions
+OS X doesn't let you permanently change your MAC address. Every time you restart your computer, your address gets reset back to whatever it was before. Fortunately, SpoofMAC contains the necessary files for setting this script to run at startup time, so your computer will always have the MAC address you want.
 
-If you want to automatically change your MAC address on computer startup, then do the following:
+### Startup Installation Instructions
 
-1. Make a folder called /Library/StartupItems/SpoofMAC
-2. Copy `SpoofMAC` and `StartupParameters.plist` from this repo to the folder you just created.
-3. chown the files to `root:wheel`.
-4. chmod `SpoofMAC` to `0755` and `StartupParameters.plist` to 0644.
-5. Update the path in `SpoofMAC` to the location of the `SpoofMAC.py` file. (I keep mine in ~/Scripts for easy editing)
+If you want to automatically change your MAC address on computer startup, then run the following:
 
-Also, don't forget to set the `WIRELESS_INTERFACE` and `WIRED_INTERFACE` variables at the top of `SpoofMac.py` to whatever you want your MAC address to be!
+```bash
+mkdir ~/Scripts
+git clone https://github.com/feross/SpoofMAC.git ~/Scripts/SpoofMAC
+cd ~/Scripts/SpoofMAC
+sudo mkdir /Library/StartupItems/SpoofMAC
+sudo cp SpoofMAC StartupParameters.plist /Library/StartupItems/SpoofMAC
+cd /Library/StartupItems/SpoofMAC
+sudo chown root:wheel SpoofMAC StartupParameters.plist
+sudo chmod 0755 SpoofMAC
+sudo chmod 0644 StartupParameters.plist
+
+# This last command will open a text editor.
+# You need to update the path to the location of the SpoofMAC.py file.
+# It will be something like /Users/your_username/Scripts/SpoofMAC/SpoofMAC.py
+sudo open SpoofMAC
+```
+
+Lastly, don't forget to set the `WIRELESS_INTERFACE` and `WIRED_INTERFACE` variables at the top of the `SpoofMac.py` file to whatever you want your MAC address to be! You can open the file for editing with `open ~/Scripts/SpoofMAC/SpoofMAC.py`.
 
 **That's it!** Improvements welcome!
 

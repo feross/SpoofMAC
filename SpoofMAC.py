@@ -6,8 +6,7 @@ import sys
 WIRELESS_INTERFACE = "0123456789ab"
 WIRED_INTERFACE = "cdef12345678"
 
-# Path to Airport binary differs between OS X 10.6 and 10.7.
-# This is the 10.7 path.
+# Path to Airport binary. This works on 10.7 and 10.8, but might be different in older OS X versions.
 PATH_TO_AIRPORT = "/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport"
 
 def execute(command, shell=False):
