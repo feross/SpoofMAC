@@ -1,6 +1,6 @@
 # SpoofMAC - Spoof your MAC address in Mac OS X
 
-### Tested on Lion 10.7, but should work on 10.6 and 10.5 with slight modifications.
+### Works on 10.8 (Mountain Lion) and 10.7 (Lion). Probably works on older versions, but not tested.
 
 I made this because changing your MAC address in Mac OS X is harder than it should be. The biggest annoyance is that the Wi-Fi card (Airport) needs to be *manually* disassociated from any connected networks in order for the change to be applied correctly. Doing this manually every time is tedious and lame.
 
@@ -24,7 +24,7 @@ OS X doesn't let you permanently change your MAC address. Every time you restart
 
 ### Startup Installation Instructions
 
-If you want to automatically change your MAC address on computer startup, then run the following:
+If you want to automatically change your MAC address on computer startup, then run the following commands in Terminal:
 
 ```bash
 mkdir ~/Scripts
@@ -36,11 +36,12 @@ cd /Library/StartupItems/SpoofMAC
 sudo chown root:wheel SpoofMAC StartupParameters.plist
 sudo chmod 0755 SpoofMAC
 sudo chmod 0644 StartupParameters.plist
+```
 
-# This last command will open a text editor.
-# You need to update the path to the location of the SpoofMAC.py file.
-# It will be something like /Users/your_username/Scripts/SpoofMAC/SpoofMAC.py
-sudo open SpoofMAC
+This last command will open a text editor. You need to update the path to the location of the SpoofMAC.py file. It will be something like /Users/your_username/Scripts/SpoofMAC/SpoofMAC.py
+
+```bash
+sudo nano SpoofMAC
 ```
 
 Lastly, don't forget to set the `WIRELESS_INTERFACE` and `WIRED_INTERFACE` variables at the top of the `SpoofMac.py` file to whatever you want your MAC address to be! You can open the file for editing with `open ~/Scripts/SpoofMAC/SpoofMAC.py`.
