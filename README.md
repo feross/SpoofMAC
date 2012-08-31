@@ -8,9 +8,16 @@ Instead of doing that, just run this Python script and change your MAC address i
 
 ## Usage
 
-### From the terminal, run:
+### Run this in Terminal:
 
-`sudo python SpoofMAC.py <interface> <mac_address>` (For `<interface>`, use `en0` for wired or `en1` for wireless)
+```bash
+mkdir ~/Scripts
+git clone https://github.com/feross/SpoofMAC.git ~/Scripts/SpoofMAC
+cd ~/Scripts/SpoofMAC
+sudo python SpoofMAC.py <interface> <mac_address>
+```
+
+Substitute `<interface>` with `en0` for wired or `en1` for wireless. Substitute `<mac_address>` with the address you want to set.
 
 Note that `sudo` is required because this script runs `ifconfig` which requires admin privledges to change the MAC address.
 
