@@ -23,7 +23,7 @@ Substitute `<interface>` with `en0` for ethernet or `en1` for Wi-Fi. Substitute 
 
 Note that `sudo` is required because this script runs `ifconfig` which requires admin privledges to change the MAC address.
 
-Also, note that if you're using a **Macbook Air or retina Macbook Pro**, `en0` is Wi-Fi -- not `en1`.
+Also, note that if you're using a **Macbook Air or retina Macbook Pro**, `en0` is Wi-Fi, not `en1`.
 
 ## Optional: Run automatically on startup
 
