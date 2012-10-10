@@ -17,11 +17,13 @@ cd ~/Scripts/SpoofMAC
 sudo python SpoofMAC.py <interface> <mac_address>
 ```
 
-Substitute `<interface>` with `en0` for wired or `en1` for wireless. Substitute `<mac_address>` with the address you want to set.
+Substitute `<interface>` with `en0` for ethernet or `en1` for Wi-Fi. Substitute `<mac_address>` with the address you want to set.
 
 **Example:** `sudo python SpoofMAC.py en1 12:12:12:12:12:12`
 
 Note that `sudo` is required because this script runs `ifconfig` which requires admin privledges to change the MAC address.
+
+Also, note that if you're using a **Macbook Air or retina Macbook Pro**, `en0` is Wi-Fi -- not `en1`.
 
 ## Optional: Run automatically on startup
 
