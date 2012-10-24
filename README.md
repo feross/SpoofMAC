@@ -6,16 +6,19 @@ I made this because changing your MAC address in Mac OS X is harder than it shou
 
 Instead of doing that, just run this Python script and change your MAC address in one command.
 
-## Usage
+## Installation & Usage
 
-### Run this in Terminal:
+### Install by running this in Terminal:
 
 ```bash
 mkdir ~/Scripts
 git clone https://github.com/feross/SpoofMAC.git ~/Scripts/SpoofMAC
 cd ~/Scripts/SpoofMAC
-sudo python SpoofMAC.py <interface> <mac_address>
 ```
+
+### Use it like this:
+
+```sudo python SpoofMAC.py <interface> <mac_address>```
 
 Substitute `<interface>` with `en0` for ethernet or `en1` for Wi-Fi. Substitute `<mac_address>` with the address you want to set.
 
