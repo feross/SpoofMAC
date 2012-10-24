@@ -19,6 +19,7 @@ cd ~/Scripts/SpoofMAC
 ### Change your MAC address like this:
 
 ```sudo python SpoofMAC.py <interface> <mac_address>
+
 ```
 
 Substitute `<interface>` with `en0` for ethernet or `en1` for Wi-Fi. Substitute `<mac_address>` with the address you want to set.
