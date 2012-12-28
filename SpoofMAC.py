@@ -3,6 +3,17 @@ import re
 from subprocess import *
 import sys
 
+# Random for MAC value generation
+import random
+
+# Generates random MAC value
+def randomMAC():
+	mac = [ 0x00, 0x16, 0x3e,
+		random.randint(0x00, 0x7f),
+		random.randint(0x00, 0xff),
+		random.randint(0x00, 0xff) ]
+	return ':'.join(map(lambda x: "%02x" % x, mac))
+
 WIRELESS_INTERFACE = "0123456789ab"
 WIRED_INTERFACE = "cdef12345678"
 
@@ -55,7 +66,11 @@ if __name__ == "__main__":
 		print "Using default MAC adresses for en0 and en1."
 		setMACAddress("en0", WIRED_INTERFACE)
 		setMACAddress("en1", WIRELESS_INTERFACE)
-
+	elif len(sys.argv) == 2:
+		print "Using random MAC address."
+		interface = sys.argv[1]
+		address = randomMAC()
+		setMACAddress(interface, address)
 	elif len(sys.argv) == 3:
 		print "Using manual MAC address."
 		interface = sys.argv[1]
