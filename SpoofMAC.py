@@ -22,7 +22,8 @@ PATH_TO_AIRPORT = (
     '/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport'
 )
 
-
+# Regex to validate a MAC address, as either 00-00-00-00-00-00
+# or 00:00:00:00:00:00.
 mac_r = re.compile(r'([0-9A-F]{2}[:-]){5}([0-9A-F]{2})')
 
 
