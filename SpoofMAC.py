@@ -110,7 +110,7 @@ def set_mac(port, device, address, mac):
 
 def list_devices(args):
     for port, device, address in get_interfaces():
-        if args['--wifi'] and port != 'Wi-Fi':
+        if args['--wifi'] and port.lower() not in ('wi-fi', 'airport'):
             continue
 
         line = []
@@ -161,5 +161,5 @@ def main(args):
 
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='SpoofMAC 1.0')
+    arguments = docopt(__doc__)
     sys.exit(main(arguments))
