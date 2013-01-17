@@ -22,7 +22,7 @@ cd ~/Scripts/SpoofMAC
 sudo python SpoofMAC.py <interface> <mac_address>
 ```
 
-Substitute `<interface>` with `en0` for ethernet or `en1` for Wi-Fi. Substitute `<mac_address>` with the address you want to set.
+Substitute `<interface>` with `en0` for ethernet or `en1` for Wi-Fi. Substitute `<mac_address>` with the address you want to set. Omit `<mac_address>` to use a random MAC address.
 
 **Example:** `sudo python SpoofMAC.py en1 12:12:12:12:12:12`
 
