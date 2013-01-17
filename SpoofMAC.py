@@ -1,84 +1,165 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
+# -*- coding: utf8 -*-
+"""SpoofMAC
+
+Usage:
+  SpoofMAC.py list [--wifi]
+  SpoofMAC.py randomize <devices>...
+  SpoofMAC.py set <mac> <devices>...
+  SpoofMAC.py reset <devices>...
+
+"""
 import re
-from subprocess import *
 import sys
-
-# Random for MAC value generation
 import random
+import subprocess
 
-# Generates random MAC value
-def randomMAC():
-	mac = [ 0x00, 0x16, 0x3e,
-		random.randint(0x00, 0x7f),
-		random.randint(0x00, 0xff),
-		random.randint(0x00, 0xff) ]
-	return ':'.join(map(lambda x: "%02x" % x, mac))
+from docopt import docopt
 
-WIRELESS_INTERFACE = "0123456789ab"
-WIRED_INTERFACE = "cdef12345678"
+# Path to Airport binary. This works on 10.7 and 10.8, but might be different
+# on older OS X versions.
+PATH_TO_AIRPORT = (
+    '/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport'
+)
 
-# Path to Airport binary. This works on 10.7 and 10.8, but might be different in older OS X versions.
-PATH_TO_AIRPORT = "/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport"
 
-def execute(command, shell=False):
-	"""If shell is true, treat command as string and execute as-is."""
+mac_r = re.compile(r'([0-9A-F]{2}[:-]){5}([0-9A-F]{2})')
 
-	pipe = Popen(command, stdout=PIPE, shell=shell)
-	return pipe.communicate()[0]
 
-def getMACAddress(interface, hardware=False):
-	"""Returns current MAC address on given interface.
-	If hardware is true, then return the actual hardware MAC address."""
+def random_mac():
+    """
+    Generates and returns a random MAC address.
+    """
+    #Taken from the CentOS Virtualization Guide.
+    mac = [
+        0x00,
+        0x16,
+        0x3e,
+        random.randint(0x00, 0x7f),
+        random.randint(0x00, 0xff),
+        random.randint(0x00, 0xff)
+    ]
+    return ':'.join('{0:02X}'.format(o) for o in mac)
 
-	output = None
-	if hardware:
-		output = execute(["networksetup", "-getmacaddress", interface])
-	else:
-		command = "ifconfig {} | grep ether".format(interface)
-		output = execute(command, shell=True)
 
-	m = re.search("([0-9a-fA-F]{2}:?){6}", output)
-	return m.group(0)
+def get_interfaces():
+    """
+    Returns the list of interfaces found on this machine as reported
+    by the `networksetup` command.
+    """
+    details = re.findall(
+        r'^(?:Hardware Port|Device|Ethernet Address): (.+)$',
+        subprocess.check_output((
+            'networksetup',
+            '-listallhardwareports'
+        )), re.MULTILINE
+    )
+    for i in range(0, len(details), 3):
+        port, device, address = details[i:i + 3]
+        address = mac_r.match(address.upper())
+        if address:
+            address = address.group(0)
 
-def setMACAddress(interface, address):
-	oldAddress = getMACAddress(interface)
+        yield (port, device, address)
 
-	# Turn airport power on & disassociate from connected network
-	# This appears to be required even for wired (en0)
-	execute(["networksetup", "-setairportpower", "en1", "on"])
-	execute([PATH_TO_AIRPORT, "-z"])
 
-	Popen(["ifconfig", interface, "ether", address]) # Set MAC Address
+def find_interface(target):
+    """
+    Returns the interface for `device`.
+    """
+    for port, device, address in get_interfaces():
+        if target.lower() in (port.lower(), device.lower()):
+            return port, device, address
+    return None
 
-	# Associate airport with known network (if any)
-	execute(["networksetup", "-detectnewhardware"])
 
-	# Print result
-	newAddress = getMACAddress(interface)
-	hardwareAddress = getMACAddress(interface, hardware=True)
-	res = "Changed {} (h/w: {}) from {} to {}."
-	res = res.format(interface, hardwareAddress, oldAddress, newAddress)
-	print(res)
-	print("If both addresses are the same, run 'ifconfig {} | grep ether' in a few seconds.".format(interface))
+def set_mac(port, device, address, mac):
+    """
+    Sets the mac address for `device` to `mac`.
+    """
+    if port.lower() in ('wi-if', 'airport'):
+        # Turn on the device, assuming it's an airport device.
+        subprocess.call([
+            'networksetup',
+            '-setairportpower',
+            device,
+            'on'
+        ])
 
-if __name__ == "__main__":
-	if len(sys.argv) == 1:
-		print "Using default MAC adresses for en0 and en1."
-		setMACAddress("en0", WIRED_INTERFACE)
-		setMACAddress("en1", WIRELESS_INTERFACE)
-	elif len(sys.argv) == 2:
-		print "Using random MAC address."
-		interface = sys.argv[1]
-		address = randomMAC()
-		setMACAddress(interface, address)
-	elif len(sys.argv) == 3:
-		print "Using manual MAC address."
-		interface = sys.argv[1]
-		address = sys.argv[2]
-		setMACAddress(interface, address)
-	elif sys.argv[1] == "-h":
-		print "sudo python SpoofMAC.py <interface> <mac_address> (For <interface>, use en0 for wired or en1 for wireless)"
-		print "Example: sudo python SpoofMAC.py en1 12:12:12:12:12:12"
-	else:
-		print "Wrong number of arguments."
+    # For some reason this seems to be required even when changing a
+    # non-airport device.
+    subprocess.check_call([
+        PATH_TO_AIRPORT,
+        '-z'
+    ])
 
+    # Change the MAC.
+    subprocess.check_call([
+        'ifconfig',
+        device,
+        'ether',
+        mac
+    ])
+
+    # Associate airport with known network (if any)
+    subprocess.check_call([
+        'networksetup',
+        '-detectnewhardware'
+    ])
+
+
+def list_devices(args):
+    for port, device, address in get_interfaces():
+        if args['--wifi'] and port != 'Wi-Fi':
+            continue
+
+        line = []
+        line.append('- "{port}"'.format(port=port))
+        line.append('on device "{device}"'.format(device=device))
+        if address:
+            line.append('with MAC address {mac}'.format(mac=address))
+
+        print(' '.join(line))
+
+
+def main(args):
+    if args['list']:
+        list_devices(args)
+    elif args['randomize'] or args['set'] or args['reset']:
+        for target in args['<devices>']:
+            # Fill out the details for `target`, which could be a Hardware
+            # Port or a literal device.
+            result = find_interface(target)
+            if result is None:
+                print('- couldn\'t find the device for {target}'.format(
+                    target=target
+                ))
+                return 1
+
+            port, device, address = result
+            if args['randomize']:
+                target_mac = random_mac()
+            elif args['set']:
+                target_mac = args['<mac>']
+            elif args['reset']:
+                if address is None:
+                    print('- {target} missing hardware MAC'.format(
+                        target=target
+                    ))
+                    continue
+                target_mac = address
+
+            if not mac_r.match(target_mac):
+                print('- {mac} is not a valid MAC address'.format(
+                    mac=target_mac
+                ))
+                return 1
+
+            set_mac(port, device, address, target_mac)
+
+    return 1
+
+
+if __name__ == '__main__':
+    arguments = docopt(__doc__, version='SpoofMAC 1.0')
+    sys.exit(main(arguments))
