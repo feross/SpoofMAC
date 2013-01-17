@@ -26,6 +26,9 @@ PATH_TO_AIRPORT = (
 # or 00:00:00:00:00:00.
 mac_r = re.compile(r'([0-9A-F]{2}[:-]){5}([0-9A-F]{2})')
 
+# The possible port names for wireless devices as returned by networksetup.
+wireless_port_names = ('wi-fi', 'airport')
+
 
 def random_mac():
     """
@@ -43,11 +46,17 @@ def random_mac():
     return ':'.join('{0:02X}'.format(o) for o in mac)
 
 
-def get_interfaces():
+def find_interfaces(targets=None):
     """
     Returns the list of interfaces found on this machine as reported
     by the `networksetup` command.
     """
+    targets = [t.lower() for t in targets] if targets else []
+    # Parse the output of `networksetup -listallhardwareports` which gives
+    # us 3 fields per port:
+    # - the port name,
+    # - the device associated with this port, if any,
+    # - The MAC address, if any, otherwise 'N/A'
     details = re.findall(
         r'^(?:Hardware Port|Device|Ethernet Address): (.+)$',
         subprocess.check_output((
@@ -55,30 +64,42 @@ def get_interfaces():
             '-listallhardwareports'
         )), re.MULTILINE
     )
+    # Split the results into chunks of 3 (for our three fields) and yield
+    # those that match `targets`.
     for i in range(0, len(details), 3):
         port, device, address = details[i:i + 3]
+
         address = mac_r.match(address.upper())
         if address:
             address = address.group(0)
 
-        yield (port, device, address)
+        if not targets:
+            # Not trying to match anything in particular,
+            # return everything.
+            yield port, device, address
+            continue
+
+        for target in targets:
+            if target in (port.lower(), device.lower()):
+                yield port, device, address
+                break
 
 
 def find_interface(target):
     """
-    Returns the interface for `device`.
+    Returns the first interface which matches `target`.
     """
-    for port, device, address in get_interfaces():
-        if target.lower() in (port.lower(), device.lower()):
-            return port, device, address
-    return None
+    try:
+        return next(find_interfaces(targets=[target]))
+    except StopIteration:
+        pass
 
 
 def set_mac(port, device, address, mac):
     """
     Sets the mac address for `device` to `mac`.
     """
-    if port.lower() in ('wi-if', 'airport'):
+    if port.lower() in wireless_port_names:
         # Turn on the device, assuming it's an airport device.
         subprocess.call([
             'networksetup',
@@ -109,11 +130,14 @@ def set_mac(port, device, address, mac):
     ])
 
 
-def list_devices(args):
-    for port, device, address in get_interfaces():
-        if args['--wifi'] and port.lower() not in ('wi-fi', 'airport'):
-            continue
+def list_interfaces(args):
+    targets = []
 
+    # Should we only return prospective wireless interfaces?
+    if args['--wifi']:
+        targets += wireless_port_names
+
+    for port, device, address in find_interfaces(targets=targets):
         line = []
         line.append('- "{port}"'.format(port=port))
         line.append('on device "{device}"'.format(device=device))
@@ -125,7 +149,7 @@ def list_devices(args):
 
 def main(args):
     if args['list']:
-        list_devices(args)
+        list_interfaces(args)
     elif args['randomize'] or args['set'] or args['reset']:
         for target in args['<devices>']:
             # Fill out the details for `target`, which could be a Hardware
