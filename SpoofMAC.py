@@ -3,11 +3,17 @@
 """SpoofMAC
 
 Usage:
-  SpoofMAC.py list [--wifi]
-  SpoofMAC.py randomize [--local] <devices>...
-  SpoofMAC.py set <mac> <devices>...
-  SpoofMAC.py reset <devices>...
+    SpoofMAC.py list [--wifi]
+    SpoofMAC.py randomize [--local] <devices>...
+    SpoofMAC.py set <mac> <devices>...
+    SpoofMAC.py reset <devices>...
+    SpoofMac.py -h | --help
 
+Options:
+
+    -h --help       Shows this message.
+    --wifi          Try to only show wireless interfaces.
+    --local         Set the locally administered flag on randomized MACs.
 """
 import re
 import sys
