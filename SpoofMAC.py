@@ -4,7 +4,7 @@
 
 Usage:
   SpoofMAC.py list [--wifi]
-  SpoofMAC.py randomize <devices>...
+  SpoofMAC.py randomize [--local] <devices>...
   SpoofMAC.py set <mac> <devices>...
   SpoofMAC.py reset <devices>...
 
@@ -30,19 +30,33 @@ mac_r = re.compile(r'([0-9A-F]{2}[:-]){5}([0-9A-F]{2})')
 wireless_port_names = ('wi-fi', 'airport')
 
 
-def random_mac():
+def random_mac(local_admin=True):
     """
     Generates and returns a random MAC address.
     """
-    #Taken from the CentOS Virtualization Guide.
+    # By default use a random address in VMWare's MAC address
+    # range used by VMWare VMs, which has a very slim chance of colliding
+    # with existing devices.
     mac = [
         0x00,
-        0x16,
-        0x3e,
+        0x05,
+        0x69,
         random.randint(0x00, 0x7f),
         random.randint(0x00, 0xff),
         random.randint(0x00, 0xff)
     ]
+
+    if local_admin:
+        # Universally administered and locally administered addresses are
+        # distinguished by setting the second least significant bit of the
+        # most significant byte of the address. If the bit is 0, the address
+        # is universally administered. If it is 1, the address is locally
+        # administered. In the example address 02-00-00-00-00-01 the most
+        # significant byte is 02h. The binary is 00000010 and the second
+        # least significant bit is 1. Therefore, it is a locally administered
+        # address.[3] The bit is 0 in all OUIs.
+        mac[0] |= 2
+
     return ':'.join('{0:02X}'.format(o) for o in mac)
 
 
@@ -163,7 +177,7 @@ def main(args):
 
             port, device, address = result
             if args['randomize']:
-                target_mac = random_mac()
+                target_mac = random_mac(args['--local'])
             elif args['set']:
                 target_mac = args['<mac>']
             elif args['reset']:
