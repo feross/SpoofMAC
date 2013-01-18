@@ -5,7 +5,26 @@ import random
 
 # Regex to validate a MAC address, as either 00-00-00-00-00-00
 # or 00:00:00:00:00:00.
-MAC_ADDRESS_R = re.compile(r'([0-9A-F]{2}[:-]){5}([0-9A-F]{2})')
+MAC_ADDRESS_R = re.compile(r"""
+    ([0-9A-F]{1,2})[:-]
+    ([0-9A-F]{1,2})[:-]
+    ([0-9A-F]{1,2})[:-]
+    ([0-9A-F]{1,2})[:-]
+    ([0-9A-F]{1,2})[:-]
+    ([0-9A-F]{1,2})
+    """,
+    re.I | re.VERBOSE
+)
+# Regex to validate a MAC address in cisco-style, such as
+# 0123.4567.89ab
+CISCO_MAC_ADDRESS_R = re.compile(
+    r'([0-9A-F]{,4})\.([0-9A-F]{,4})\.([0-9A-F]{,4})',
+    re.I
+)
+
+
+def _chunk(l, n):
+    return [l[i:i + n] for i in range(0, len(l), n)]
 
 
 def random_mac_address(local_admin=True):
@@ -36,3 +55,25 @@ def random_mac_address(local_admin=True):
         mac[0] |= 2
 
     return ':'.join('{0:02X}'.format(o) for o in mac)
+
+
+def normalize_mac_address(mac):
+    """
+    Takes a MAC address in various formats:
+
+        - 00:00:00:00:00:00,
+        - 00.00.00.00.00.00,
+        - 0000.0000.0000
+
+    ... and returns it in the format 00:00:00:00:00:00.
+    """
+    m = CISCO_MAC_ADDRESS_R.match(mac)
+    if m:
+        new_mac = ''.join([g.zfill(4) for g in m.groups()])
+        return ':'.join(_chunk(new_mac, 2)).upper()
+
+    m = MAC_ADDRESS_R.match(mac)
+    if m:
+        return ':'.join([g.zfill(2) for g in m.groups()]).upper()
+
+    return None
