@@ -7,6 +7,7 @@ Usage:
     SpoofMAC.py randomize [--local] <devices>...
     SpoofMAC.py set <mac> <devices>...
     SpoofMAC.py reset <devices>...
+    SpoofMAC.py normalize <mac>
     SpoofMAC.py -h | --help
     SpoofMAC.py --version
 
@@ -22,7 +23,7 @@ import sys
 from docopt import docopt
 
 from spoofmac.version import __version__
-from spoofmac.util import random_mac_address, MAC_ADDRESS_R
+from spoofmac.util import random_mac_address, MAC_ADDRESS_R, normalize_mac_address
 from spoofmac.interface import (
     wireless_port_names,
     find_interfaces,
@@ -82,6 +83,8 @@ def main(args):
                 return 1
 
             set_interface_mac(port, device, address, target_mac)
+    elif args['normalize']:
+        print(normalize_mac_address(args['<mac>']))
 
     return 1
 

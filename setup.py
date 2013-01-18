@@ -26,6 +26,6 @@ if __name__ == '__main__':
             'docopt'
         ],
         scripts=[
-            'scripts/SpoofMAC.py'
+            'scripts/spoof-mac'
         ]
     )
