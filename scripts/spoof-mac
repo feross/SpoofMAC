@@ -3,13 +3,13 @@
 """SpoofMAC
 
 Usage:
-    SpoofMAC.py list [--wifi]
-    SpoofMAC.py randomize [--local] <devices>...
-    SpoofMAC.py set <mac> <devices>...
-    SpoofMAC.py reset <devices>...
-    SpoofMAC.py normalize <mac>
-    SpoofMAC.py -h | --help
-    SpoofMAC.py --version
+    spoof-mac list [--wifi]
+    spoof-mac randomize [--local] <devices>...
+    spoof-mac set <mac> <devices>...
+    spoof-mac reset <devices>...
+    spoof-mac normalize <mac>
+    spoof-mac -h | --help
+    spoof-mac --version
 
 Options:
 
