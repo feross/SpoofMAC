@@ -19,7 +19,11 @@ if __name__ == '__main__':
     setup(
         name='SpoofMAC',
         version=get_version(),
+        description=__doc__,
         long_description=__doc__,
+        author='Feross Aboukhadijeh',
+        author_email='feross@feross.org',
+        url='http://feross.org/spoofmac/',
         packages=find_packages(),
         include_package_data=True,
         install_requires=[
