@@ -65,7 +65,7 @@ def main(args, uid):
                 ))
                 return 1
 
-            port, device, address = result
+            port, device, address, current_address = result
             if args['randomize']:
                 target_mac = random_mac_address(args['--local'])
             elif args['set']:
@@ -84,8 +84,9 @@ def main(args, uid):
                 ))
                 return 1
 
-            if not uid == 0:
-                sys.exit("Error: Must run this as root (or with sudo) to set MAC addresses")
+            if uid != 0:
+                print('Error: Must run this as root (or with sudo) to set MAC addresses')
+                return 1
 
             set_interface_mac(port, device, target_mac)
     elif args['normalize']:
