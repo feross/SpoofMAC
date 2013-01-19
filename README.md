@@ -66,6 +66,40 @@ spoof-mac reset wi-fi
 
 (older versions of OS X may call it "airport" instead of "wi-fi")
 
+## Optional: Run automatically at startup
+
+OS X doesn't let you permanently change your MAC address. Every time you restart your computer, your address gets reset back to whatever it was before. Fortunately, SpoofMAC can easily be set to run at startup time so your computer will always have the MAC address you want.
+
+### Startup Installation Instructions
+
+Run the following commands in Terminal:
+
+```bash
+# Clone the code
+mkdir ~/Scripts
+git clone https://github.com/feross/SpoofMAC.git ~/Scripts/SpoofMAC
+
+# Copy files to the OS X startup folder
+cd ~/Scripts/SpoofMAC
+sudo mkdir /Library/StartupItems/SpoofMAC
+sudo cp SpoofMAC StartupParameters.plist /Library/StartupItems/SpoofMAC
+
+# Set file permissions
+cd /Library/StartupItems/SpoofMAC
+sudo chown root:wheel SpoofMAC StartupParameters.plist
+sudo chmod 0755 SpoofMAC
+sudo chmod 0644 StartupParameters.plist
+
+# Delete
+rm -r ~/Scripts/SpoofMAC
+```
+
+By default, the above will randomize your MAC address on computer startup. You can change the command that gets run at startup by editing the `/Library/StartupItems/SpoofMAC/SpoofMAC` file.
+
+```bash
+sudo vim SpoofMAC
+```
+
 ## Changelog
 
 - 1.0.0 Rewritten by Tyler to conform to PEP8.
@@ -75,6 +109,8 @@ spoof-mac reset wi-fi
 
 - Feross Aboukhadijeh <http://feross.org>
 - Tyler Kennedy <http://www.tkte.ch>
+
+*Improvements welcome! (add yourself to the list)*
 
 ## MIT License
 
