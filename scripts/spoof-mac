@@ -40,13 +40,14 @@ def list_interfaces(args):
     if args['--wifi']:
         targets += wireless_port_names
 
-    for port, device, address in find_interfaces(targets=targets):
+    for port, device, address, current_address in find_interfaces(targets=targets):
         line = []
         line.append('- "{port}"'.format(port=port))
         line.append('on device "{device}"'.format(device=device))
         if address:
             line.append('with MAC address {mac}'.format(mac=address))
-
+        if current_address:
+            line.append('currently set to {mac}'.format(mac=current_address))
         print(' '.join(line))
 
 
@@ -85,8 +86,8 @@ def main(args, uid):
 
             if not uid == 0:
                 sys.exit("Error: Must run this as root (or with sudo) to set MAC addresses")
-            
-            set_interface_mac(port, device, address, target_mac)
+
+            set_interface_mac(port, device, target_mac)
     elif args['normalize']:
         print(normalize_mac_address(args['<mac>']))
 

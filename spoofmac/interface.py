@@ -47,15 +47,17 @@ def find_interfaces(targets=None):
         if address:
             address = address.group(0)
 
+        current_address = get_interface_mac(device)
+
         if not targets:
             # Not trying to match anything in particular,
             # return everything.
-            yield port, device, address
+            yield port, device, address, current_address
             continue
 
         for target in targets:
             if target in (port.lower(), device.lower()):
-                yield port, device, address
+                yield port, device, address, current_address
                 break
 
 
@@ -69,7 +71,7 @@ def find_interface(target):
         pass
 
 
-def set_interface_mac(port, device, address, mac):
+def set_interface_mac(port, device, mac):
     """
     Sets the mac address for `device` to `mac`.
     """
@@ -102,3 +104,27 @@ def set_interface_mac(port, device, address, mac):
         'networksetup',
         '-detectnewhardware'
     ])
+
+
+def get_interface_mac(device):
+    """
+    Returns currently-set MAC address of given interface. This is
+    distinct from the interface's hardware MAC address.
+    """
+
+    command = "ifconfig {device} | grep ether".format(device=device)
+    pipe = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        shell=True
+    )
+    output = pipe.communicate()[0]
+
+    address = None
+    if output:
+        address = MAC_ADDRESS_R.search(output.upper())
+        if address:
+            address = address.group(0)
+
+    return address
