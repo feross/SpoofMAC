@@ -19,6 +19,7 @@ Options:
     --local         Set the locally administered flag on randomized MACs.
 """
 import sys
+import os
 
 from docopt import docopt
 
@@ -49,10 +50,13 @@ def list_interfaces(args):
         print(' '.join(line))
 
 
-def main(args):
+def main(args, uid):
     if args['list']:
         list_interfaces(args)
     elif args['randomize'] or args['set'] or args['reset']:
+        if not uid == 0:
+            sys.exit("Error: Must run this as root (or with sudo) to set MAC addresses")
+
         for target in args['<devices>']:
             # Fill out the details for `target`, which could be a Hardware
             # Port or a literal device.
@@ -91,4 +95,4 @@ def main(args):
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version=__version__)
-    sys.exit(main(arguments))
+    sys.exit(main(arguments, os.geteuid()))
