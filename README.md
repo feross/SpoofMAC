@@ -10,7 +10,7 @@ in one command.
 
 # Installation
 
-You can install from pypi using `easy_install` or `pip` (COMING SOON):
+You can install from pypi using `easy_install` or `pip`:
 
 ```
 pip install SpoofMAC
