@@ -3,14 +3,14 @@ __all__ = ('MAC_ADDRESS_R', 'random_mac_address')
 import re
 import random
 
-# Regex to validate a MAC address, as either 00-00-00-00-00-00
-# or 00:00:00:00:00:00.
+# Regex to validate a MAC address, as 00-00-00-00-00-00 or
+# 00:00:00:00:00:00 or 000000000000.
 MAC_ADDRESS_R = re.compile(r"""
-    ([0-9A-F]{1,2})[:-]
-    ([0-9A-F]{1,2})[:-]
-    ([0-9A-F]{1,2})[:-]
-    ([0-9A-F]{1,2})[:-]
-    ([0-9A-F]{1,2})[:-]
+    ([0-9A-F]{1,2})[:-]?
+    ([0-9A-F]{1,2})[:-]?
+    ([0-9A-F]{1,2})[:-]?
+    ([0-9A-F]{1,2})[:-]?
+    ([0-9A-F]{1,2})[:-]?
     ([0-9A-F]{1,2})
     """,
     re.I | re.VERBOSE
