@@ -112,19 +112,16 @@ def get_interface_mac(device):
     distinct from the interface's hardware MAC address.
     """
 
-    command = "ifconfig {device} | grep ether".format(device=device)
-    pipe = subprocess.Popen(
-        command,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        shell=True
-    )
-    output = pipe.communicate()[0]
+    try:
+        result = subprocess.check_output([
+            'ifconfig',
+            device
+        ], stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError:
+        return None
 
-    address = None
-    if output:
-        address = MAC_ADDRESS_R.search(output.upper())
-        if address:
-            address = address.group(0)
+    address = MAC_ADDRESS_R.search(result.upper())
+    if address:
+        address = address.group(0)
 
     return address
