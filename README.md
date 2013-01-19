@@ -102,9 +102,10 @@ sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
 
 ## Changelog
 
-- 1.1.0 Fix regression: List command now shows current MAC address (feross)
-- 1.0.0 Complete rewrite to conform to PEP8 (tyler).
-- pre-1.0 Original version (feross).
+- 1.1.1 Fix "ValueError: too many values to unpack" error
+- 1.1.0 Fix regression: List command now shows current MAC address
+- 1.0.0 Complete rewrite to conform to PEP8 (thanks Tyler!)
+- 0.0.0 Original version by Feross
 
 ## Contributors
 
