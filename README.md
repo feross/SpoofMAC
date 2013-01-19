@@ -82,7 +82,7 @@ git clone https://github.com/feross/SpoofMAC.git ~/Scripts/SpoofMAC
 # Copy files to the OS X startup folder
 cd ~/Scripts/SpoofMAC
 sudo mkdir /Library/StartupItems/SpoofMAC
-sudo cp SpoofMAC StartupParameters.plist /Library/StartupItems/SpoofMAC
+sudo cp misc/SpoofMAC misc/StartupParameters.plist /Library/StartupItems/SpoofMAC
 
 # Set file permissions
 cd /Library/StartupItems/SpoofMAC
@@ -91,13 +91,13 @@ sudo chmod 0755 SpoofMAC
 sudo chmod 0644 StartupParameters.plist
 
 # Delete
-rm -r ~/Scripts/SpoofMAC
+rm -rf ~/Scripts/SpoofMAC
 ```
 
 By default, the above will randomize your MAC address on computer startup. You can change the command that gets run at startup by editing the `/Library/StartupItems/SpoofMAC/SpoofMAC` file.
 
 ```bash
-sudo vim SpoofMAC
+sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
 ```
 
 ## Changelog
