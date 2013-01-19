@@ -54,9 +54,6 @@ def main(args, uid):
     if args['list']:
         list_interfaces(args)
     elif args['randomize'] or args['set'] or args['reset']:
-        if not uid == 0:
-            sys.exit("Error: Must run this as root (or with sudo) to set MAC addresses")
-
         for target in args['<devices>']:
             # Fill out the details for `target`, which could be a Hardware
             # Port or a literal device.
@@ -86,6 +83,9 @@ def main(args, uid):
                 ))
                 return 1
 
+            if not uid == 0:
+                sys.exit("Error: Must run this as root (or with sudo) to set MAC addresses")
+            
             set_interface_mac(port, device, address, target_mac)
     elif args['normalize']:
         print(normalize_mac_address(args['<mac>']))
