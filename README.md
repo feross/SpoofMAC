@@ -102,8 +102,9 @@ sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
 
 ## Changelog
 
-- 1.0.0 Rewritten by Tyler to conform to PEP8.
-- pre-1.0 original version by Feross.
+- 1.1.0 Fix regression: List command now shows current MAC address (feross)
+- 1.0.0 Complete rewrite to conform to PEP8 (tyler).
+- pre-1.0 Original version (feross).
 
 ## Contributors
 
