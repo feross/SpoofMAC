@@ -41,7 +41,7 @@ spoof-mac list --wifi
 - "Wi-Fi" on device "en0" with MAC address 70:56:51:BE:B3:6F
 ```
 
-### Randomize MAC address
+### Randomize MAC address *(requires root)*
 
 You can use the hardware port name, such as:
 ```
@@ -54,13 +54,13 @@ or the device name, such as:
 spoof-mac randomize en0
 ```
 
-### Set device MAC address to something specific
+### Set device MAC address to something specific *(requires root)*
 
 ```
 spoof-mac set 00:00:00:00:00:00 en0
 ```
 
-### Reset device to its original MAC address
+### Reset device to its original MAC address *(requires root)*
 
 While not always possible (because the original physical MAC isn't
 available), you can try setting the MAC address of a device back
