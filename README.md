@@ -10,7 +10,7 @@ in one command.
 
 # Installation
 
-You can install from pypi using `easy_install` or `pip`:
+You can install from PyPI using `easy_install` or `pip`:
 
 ```
 pip install SpoofMAC
@@ -41,7 +41,7 @@ spoof-mac list --wifi
 - "Wi-Fi" on device "en0" with MAC address 70:56:51:BE:B3:6F
 ```
 
-### Randomize Wireless MAC address
+### Randomize MAC address
 
 You can use the hardware port name, such as:
 ```
@@ -52,6 +52,12 @@ or the device name, such as:
 
 ```
 spoof-mac randomize en0
+```
+
+### Set device MAC address to something specific
+
+```
+spoof-mac set 00:00:00:00:00:00 en0
 ```
 
 ### Reset device to its original MAC address
@@ -65,6 +71,9 @@ spoof-mac reset wi-fi
 ```
 
 (older versions of OS X may call it "airport" instead of "wi-fi")
+
+Another option to reset your MAC address is to simply restart your computer. OS X doesn't store changes to your MAC address between restarts. If you want to make change your MAC address and have it persist between restarts, read the next section.
+
 
 ## Optional: Run automatically at startup
 
@@ -100,6 +109,11 @@ By default, the above will randomize your MAC address on computer startup. You c
 sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
 ```
 
+## Supported OSes
+
+**SpoofMAC only supports OS X (10.7+).** However, there are excellent tools for changing your MAC address on other OSes. For Linux, you can use the excellent [MAC Changer](http://www.alobbs.com/macchanger). For Windows, you can use [MACshift](http://devices.natetrue.com/macshift/), or [SMAC](http://www.klcconsulting.net/smac/).
+
+
 ## Changelog
 
 - 1.1.1 Fix "ValueError: too many values to unpack" error
@@ -112,7 +126,7 @@ sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
 - Feross Aboukhadijeh <http://feross.org>
 - Tyler Kennedy <http://www.tkte.ch>
 
-*Improvements welcome! (add yourself to the list)*
+*Improvements welcome! (please add yourself to the list)*
 
 ## MIT License
 
