@@ -4,3 +4,4 @@ ENV/
 *.egg-info/
 dist/
 build/
+*.swp
