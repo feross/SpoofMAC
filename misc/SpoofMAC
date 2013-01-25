@@ -4,7 +4,7 @@
 StartService ()
 {
     ConsoleMessage "Running SpoofMAC script."
-    python /Users/feross/Scripts/SpoofMAC/SpoofMAC.py
+    spoof-mac randomize en0
 }
 
 StopService ()

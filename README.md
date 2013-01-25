@@ -1,67 +1,139 @@
 # SpoofMAC - Spoof your MAC address in Mac OS X
 
-### Works on 10.8 (Mountain Lion) and 10.7 (Lion). Probably works on older versions, but not tested.
+I made this because changing your MAC address in Mac OS X is harder than it
+should be. The biggest annoyance is that the Wi-Fi card (Airport) needs to be
+*manually* disassociated from any connected networks in order for the change
+to be applied correctly. Doing this manually every time is tedious and lame.
 
-I made this because changing your MAC address in Mac OS X is harder than it should be. The biggest annoyance is that the Wi-Fi card (Airport) needs to be *manually* disassociated from any connected networks in order for the change to be applied correctly. Doing this manually every time is tedious and lame.
+Instead of doing that, just run this Python script and change your MAC address
+in one command.
 
-Instead of doing that, just run this Python script and change your MAC address in one command.
+# Installation
 
-## Installation & Usage
+You can install from PyPI using `easy_install` or `pip`:
 
-### Install by running this in Terminal:
-
-```bash
-mkdir ~/Scripts
-git clone https://github.com/feross/SpoofMAC.git ~/Scripts/SpoofMAC
-cd ~/Scripts/SpoofMAC
+```
+pip install SpoofMAC
+easy_install SpoofMAC
 ```
 
-### Change your MAC address like this:
+or clone/download the repository and install with `setup.py`. Ex:
 
-```bash
-sudo python SpoofMAC.py <interface> <mac_address>
+```
+git clone git://github.com/feross/SpoofMAC.git
+cd SpoofMAC
+python setup.py install
 ```
 
-Substitute `<interface>` with `en0` for ethernet or `en1` for Wi-Fi. Substitute `<mac_address>` with the address you want to set.
+# Usage
 
-**Example:** `sudo python SpoofMAC.py en1 12:12:12:12:12:12`
+SpoofMAC installs a command-line script called `spoof-mac`. You can always
+see up-to-date usage instructions by typing `spoof-mac --help`.
 
-Note that `sudo` is required because this script runs `ifconfig` which requires admin privledges to change the MAC address.
+## Examples
 
-Also, note that if you're using a **Macbook Air or retina Macbook Pro**, `en0` is Wi-Fi, not `en1`.
+Some short usage examples.
 
-## Optional: Run automatically on startup
+### List available devices, but only those on wifi:
 
-OS X doesn't let you permanently change your MAC address. Every time you restart your computer, your address gets reset back to whatever it was before. Fortunately, SpoofMAC contains the necessary files for setting this script to run at startup time, so your computer will always have the MAC address you want.
+```
+spoof-mac list --wifi
+- "Wi-Fi" on device "en0" with MAC address 70:56:51:BE:B3:6F
+```
+
+### Randomize MAC address *(requires root)*
+
+You can use the hardware port name, such as:
+```
+spoof-mac randomize wi-fi
+```
+
+or the device name, such as:
+
+```
+spoof-mac randomize en0
+```
+
+### Set device MAC address to something specific *(requires root)*
+
+```
+spoof-mac set 00:00:00:00:00:00 en0
+```
+
+### Reset device to its original MAC address *(requires root)*
+
+While not always possible (because the original physical MAC isn't
+available), you can try setting the MAC address of a device back
+to its burned-in address using `reset`:
+
+```
+spoof-mac reset wi-fi
+```
+
+(older versions of OS X may call it "airport" instead of "wi-fi")
+
+Another option to reset your MAC address is to simply restart your computer. OS X doesn't store changes to your MAC address between restarts. If you want to make change your MAC address and have it persist between restarts, read the next section.
+
+
+## Optional: Run automatically at startup
+
+OS X doesn't let you permanently change your MAC address. Every time you restart your computer, your address gets reset back to whatever it was before. Fortunately, SpoofMAC can easily be set to run at startup time so your computer will always have the MAC address you want.
 
 ### Startup Installation Instructions
 
-If you want to automatically change your MAC address on computer startup, then run the following commands in Terminal:
+Run the following commands in Terminal:
 
 ```bash
+# Clone the code
 mkdir ~/Scripts
 git clone https://github.com/feross/SpoofMAC.git ~/Scripts/SpoofMAC
+
+# Copy files to the OS X startup folder
 cd ~/Scripts/SpoofMAC
 sudo mkdir /Library/StartupItems/SpoofMAC
-sudo cp SpoofMAC StartupParameters.plist /Library/StartupItems/SpoofMAC
+sudo cp misc/SpoofMAC misc/StartupParameters.plist /Library/StartupItems/SpoofMAC
+
+# Set file permissions
 cd /Library/StartupItems/SpoofMAC
 sudo chown root:wheel SpoofMAC StartupParameters.plist
 sudo chmod 0755 SpoofMAC
 sudo chmod 0644 StartupParameters.plist
+
+# Delete
+rm -rf ~/Scripts/SpoofMAC
 ```
 
-This last command will open a text editor. You need to update the path to the location of the SpoofMAC.py file. It will be something like /Users/your_username/Scripts/SpoofMAC/SpoofMAC.py
+By default, the above will randomize your MAC address on computer startup. You can change the command that gets run at startup by editing the `/Library/StartupItems/SpoofMAC/SpoofMAC` file.
 
 ```bash
-sudo nano SpoofMAC
+sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
 ```
 
-Lastly, don't forget to set the `WIRELESS_INTERFACE` and `WIRED_INTERFACE` variables at the top of the `SpoofMac.py` file to whatever you want your MAC address to be! You can open the file for editing with `open ~/Scripts/SpoofMAC/SpoofMAC.py`.
+## Supported OSes
 
-**That's it!** Improvements welcome!
+**SpoofMAC only supports OS X (10.7+).** However, there are excellent tools for changing your MAC address on other OSes. For Linux, you can use the excellent [MAC Changer](http://www.alobbs.com/macchanger). For Windows, you can use [MACshift](http://devices.natetrue.com/macshift/), or [SMAC](http://www.klcconsulting.net/smac/).
 
-## Handy links for reference
 
-* <http://synergy2.sourceforge.net/autostart.html>
-* <http://www.macos.utah.edu/documentation/programming_and_scripting/login_and_logout_scripts/mainColumnParagraphs/00/document/20030219-Scripts.pdf>
-* <https://support.apple.com/kb/HT2413>
+## Changelog
+
+- 1.1.1 Fix "ValueError: too many values to unpack" error
+- 1.1.0 Fix regression: List command now shows current MAC address
+- 1.0.0 Complete rewrite to conform to PEP8 (thanks Tyler!)
+- 0.0.0 Original version by Feross
+
+## Contributors
+
+- Feross Aboukhadijeh <http://feross.org>
+- Tyler Kennedy <http://www.tkte.ch>
+
+*Improvements welcome! (please add yourself to the list)*
+
+## MIT License
+
+Copyright (c) 2011-2013
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
