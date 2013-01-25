@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 """
-Easily spoof your MAC address in OS X
+Easily spoof your MAC address in OS X and Linux.
 """
 from setuptools import setup, find_packages
 
