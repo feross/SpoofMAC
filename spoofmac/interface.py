@@ -59,9 +59,9 @@ class WindowsSpoofer(OsSpoofer):
         Disables and then re-enables device interface
         """
         cmd = "netsh interface set interface \"" + device + "\" disable"
-        subprocess.call(cmd, shell=True)
+        subprocess.call(cmd)
         cmd = "netsh interface set interface \"" + device + "\" enable"
-        subprocess.call(cmd, shell=True)
+        subprocess.call(cmd)
 
     def get_ipconfig_all(self):
         result = subprocess.check_output(["ipconfig", "/all"], stderr=subprocess.STDOUT)
