@@ -345,7 +345,7 @@ def find_interfaces(targets=None):
         MacOS & Linux this is the interface name in ifconfig
         Windows this is the network adapter name in ipconfig
     """
-    # Wrapper to interface handles encapsulating objects via Singletons
+    # Wrapper to interface handles encapsulating objects 
     spoofer = get_os_spoofer()
     return spoofer.find_interfaces(targets)
 
@@ -358,7 +358,7 @@ def find_interface(targets=None):
         MacOS & Linux this is the interface name in ifconfig
         Windows this is the network adapter name in ipconfig
     """
-    # Wrapper to interface handles encapsulating objects via Singletons
+    # Wrapper to interface handles encapsulating objects
     spoofer = get_os_spoofer()
     return spoofer.find_interface(targets)
 
@@ -370,6 +370,6 @@ def set_interface_mac(device, mac, port=None):
         MacOS & Linux this is the interface name in ifconfig
         Windows this is the network adapter name in ipconfig
     """
-    # Wrapper to interface handles encapsulating objects via Singletons
+    # Wrapper to interface handles encapsulating objects
     spoofer = get_os_spoofer()
     spoofer.set_interface_mac(device, mac, port)
