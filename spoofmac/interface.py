@@ -22,15 +22,6 @@ class OsSpoofer(object):
     """
     Abstract class for OS level MAC spoofing.
     """ 
-
-    # Singleton
-    _instance = None
-    def __new__(cls, *args, **kwargs):
-        if not cls._instance:
-            cls._instance = super(OsSpoofer, cls).__new__(
-                                cls, *args, **kwargs)
-        return cls._instance
-
     def find_interfaces(self, target):
         raise NotImplementedError("find_interfaces must be implemented") 
 
@@ -328,9 +319,6 @@ class MacSpoofer(OsSpoofer):
 
         return address
 
-class UnsupportedPlatformException(Exception):
-    pass
-
 
 def get_os_spoofer():
     """
@@ -345,7 +333,7 @@ def get_os_spoofer():
     elif sys.platform.startswith('linux'):
         spoofer = LinuxSpoofer()
     else:
-        raise UnsupportedPlatformException()
+        raise NotImplementedError()
 
     return spoofer
 
