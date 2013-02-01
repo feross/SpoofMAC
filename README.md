@@ -1,4 +1,4 @@
-# SpoofMAC - Spoof your MAC address in Mac OS X
+# SpoofMAC - Spoof your MAC address in Mac OS X, Linux and Windows
 
 I made this because changing your MAC address in Mac OS X is harder than it
 should be. The biggest annoyance is that the Wi-Fi card (Airport) needs to be

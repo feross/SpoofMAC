@@ -25,6 +25,7 @@ from docopt import docopt
 
 from spoofmac.version import __version__
 from spoofmac.util import random_mac_address, MAC_ADDRESS_R, normalize_mac_address
+
 from spoofmac.interface import (
     wireless_port_names,
     find_interfaces,
@@ -32,15 +33,23 @@ from spoofmac.interface import (
     set_interface_mac
 )
 
+# Return Codes
+SUCCESS = 0
+INVALID_ARGS = 1001
+UNSUPPORTED_PLATFORM = 1002
+INVALID_TARGET = 1003
+INVALID_MAC_ADDR = 1004
+NON_ROOT_USER = 1005
 
-def list_interfaces(args):
+
+def list_interfaces(args, spoofer):
     targets = []
 
     # Should we only return prospective wireless interfaces?
     if args['--wifi']:
         targets += wireless_port_names
 
-    for port, device, address, current_address in find_interfaces(targets=targets):
+    for port, device, address, current_address in spoofer.find_interfaces(targets=targets):
         line = []
         line.append('- "{port}"'.format(port=port))
         line.append('on device "{device}"'.format(device=device))
@@ -52,8 +61,15 @@ def list_interfaces(args):
 
 
 def main(args, uid):
+    spoofer = None
+
+    try:
+        spoofer = get_os_spoofer()
+    except UnsupportedPlatformSpoofer:
+        return UNSUPPORTED_PLATFORM
+    
     if args['list']:
-        list_interfaces(args)
+        list_interfaces(args, spoofer)
     elif args['randomize'] or args['set'] or args['reset']:
         for target in args['<devices>']:
             # Fill out the details for `target`, which could be a Hardware
@@ -63,7 +79,7 @@ def main(args, uid):
                 print('- couldn\'t find the device for {target}'.format(
                     target=target
                 ))
-                return 1
+                return INVALID_TARGET
 
             port, device, address, current_address = result
             if args['randomize']:
@@ -82,17 +98,23 @@ def main(args, uid):
                 print('- {mac} is not a valid MAC address'.format(
                     mac=target_mac
                 ))
-                return 1
+                return INVALID_MAC_ADDR
 
             if uid != 0:
                 print('Error: Must run this as root (or with sudo) to set MAC addresses')
-                return 1
+                return NON_ROOT_USER
 
-            set_interface_mac(port, device, target_mac)
+            set_interface_mac(device, target_mac, port)
     elif args['normalize']:
         print(normalize_mac_address(args['<mac>']))
 
-    return 1
+    else
+        print('Error: Invalid arguments - check help usage')
+        return INVALID_ARGS
+    
+    del spoofer
+
+    return SUCCESS
 
 
 if __name__ == '__main__':
