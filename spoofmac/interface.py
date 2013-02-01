@@ -10,7 +10,7 @@ import re
 import subprocess
 import sys
 
-if (sys.platform == 'win32'):
+if sys.platform == 'win32':
     import _winreg
 
 from spoofmac.util import MAC_ADDRESS_R
@@ -338,11 +338,11 @@ def get_os_spoofer():
     """
     spoofer = None
 
-    if (sys.platform == 'win32'):
+    if sys.platform == 'win32':
         spoofer = WindowsSpoofer()
-    elif (sys.platform == 'darwin'):
+    elif sys.platform == 'darwin':
 	    spoofer = MacSpoofer()
-    elif (sys.platform == 'linux' or sys.platform == 'linux2'):
+    elif sys.platform.startswith('linux'):
         spoofer = LinuxSpoofer()
     else:
         raise UnsupportedPlatformException()
