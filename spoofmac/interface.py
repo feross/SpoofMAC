@@ -40,13 +40,75 @@ class LinuxSpoofer(OsSpoofer):
     Linux platform specfic implementation for MAC spoofing.
     """
     def get_interface_mac(self, device):
-        # TODO implement
-        pass
+        result = subprocess.check_output(["ifconfig", device], stderr=subprocess.STDOUT)
+        m = re.search("(?<=HWaddr\\s)(.*)", result)
+        if not hasattr(m, "group") or m.group(0) == None:
+            return None
+        return m.group(0).strip()
+
+    def find_interfaces(self, targets=None):
+        """
+        Returns the list of interfaces found on this machine as reported
+        by the `ifconfig` command.
+        """
+        targets = [t.lower() for t in targets] if targets else []
+        # Parse the output of `ifconfig` which gives
+        # us 3 fields used:
+        # - the adapter description
+        # - the adapter name/device associated with this, if any,
+        # - the MAC address, if any
+
+        output = subprocess.check_output(["ifconfig"], stderr=subprocess.STDOUT)
+
+        # search for specific adapter gobble through mac address
+        details = re.findall("(.*?)HWaddr(.*)", output, re.MULTILINE)
+
+        # extract out ifconfig results from STDOUT
+        for i in range(0, len(details)):
+            description = None
+            address = None
+            adapter_name = None
+
+            s = details[i][0].split(":")
+            if len(s) >= 2:
+                adapter_name = s[0].split()[0]
+                description = s[1].strip() 
+                
+            address = details[i][1].strip()
+
+            current_address = self.get_interface_mac(adapter_name)
+
+            if not targets:
+                # Not trying to match anything in particular,
+                # return everything.
+                yield description, adapter_name, address, current_address
+                continue
+
+            for target in targets:
+                if target in (adapter_name.lower(), adapter_name.lower()):
+                    yield description, adapter_name, address, current_address
+                    break
+
+    def find_interface(self, target):
+        """
+        Returns tuple of the first interface which matches `target`.
+            adapter description, adapter name, mac address of target, current mac addr
+        """
+        try:
+            return next(self.find_interfaces(targets=[target]))
+        except StopIteration:
+            pass
 
     def set_interface_mac(self, device, mac, port=None):
-        # TODO implement
-        pass
-
+        """
+        Set the device's mac address.  Handles shutting down and starting back up interface.  
+        """
+        # turn off device & set mac
+        cmd = "ifconfig {} down hw ether {}".format(device, mac)
+        subprocess.call(cmd)
+        # turn on device
+        cmd = "ifconfig {} up".format(device)
+        subprocess.call(cmd)
 
 class WindowsSpoofer(OsSpoofer):
     """
