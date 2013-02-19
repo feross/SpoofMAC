@@ -126,11 +126,12 @@ sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
 
 ## Changelog
 
-- 1.2.0 - Add Windows and Linux support (thanks CJ!)
+- 1.2.1 - Fix line endings (dos2unix)
+- **1.2.0 - Add Windows and Linux support (thanks CJ!)**
 - 1.1.1 - Fix "ValueError: too many values to unpack" error
 - 1.1.0 - Fix regression: List command now shows current MAC address
-- 1.0.0 - Complete rewrite to conform to PEP8 (thanks Tyler!)
-- 0.0.0 - Original version (by Feross)
+- **1.0.0 - Complete rewrite to conform to PEP8 (thanks Tyler!)**
+- **0.0.0 - Original version (by Feross)**
 
 ## Contributors
 
