@@ -18,21 +18,21 @@ from spoofmac.util import MAC_ADDRESS_R
 # The possible port names for wireless devices as returned by networksetup.
 wireless_port_names = ('wi-fi', 'airport')
 
-class OsSpoofer(object): 
+class OsSpoofer(object):
     """
     Abstract class for OS level MAC spoofing.
-    """ 
+    """
     def find_interfaces(self, target):
-        raise NotImplementedError("find_interfaces must be implemented") 
+        raise NotImplementedError("find_interfaces must be implemented")
 
     def find_interface(self, target):
-        raise NotImplementedError("find_interface must be implemented") 
+        raise NotImplementedError("find_interface must be implemented")
 
     def get_interface_mac(self, device):
-        raise NotImplementedError("get_interface_mac must be implemented") 
+        raise NotImplementedError("get_interface_mac must be implemented")
 
     def set_interface_mac(self, device, mac, port=None):
-        raise NotImplementedError("set_interface_mac must be implemented") 
+        raise NotImplementedError("set_interface_mac must be implemented")
 
 
 class LinuxSpoofer(OsSpoofer):
@@ -72,8 +72,8 @@ class LinuxSpoofer(OsSpoofer):
             s = details[i][0].split(":")
             if len(s) >= 2:
                 adapter_name = s[0].split()[0]
-                description = s[1].strip() 
-                
+                description = s[1].strip()
+
             address = details[i][1].strip()
 
             current_address = self.get_interface_mac(adapter_name)
@@ -101,7 +101,7 @@ class LinuxSpoofer(OsSpoofer):
 
     def set_interface_mac(self, device, mac, port=None):
         """
-        Set the device's mac address.  Handles shutting down and starting back up interface.  
+        Set the device's mac address.  Handles shutting down and starting back up interface.
         """
         # turn off device & set mac
         cmd = "ifconfig {} down hw ether {}".format(device, mac)
@@ -173,7 +173,7 @@ class WindowsSpoofer(OsSpoofer):
             dns = None
             description = None
             address = None
-            adapter_name = details[i][0].strip() 
+            adapter_name = details[i][0].strip()
 
             # extract DNS suffix
             m = re.search("(?<=:\\s)(.*)", details[i][1])
@@ -220,7 +220,7 @@ class WindowsSpoofer(OsSpoofer):
         reg_hdl = _winreg.ConnectRegistry(None, _winreg.HKEY_LOCAL_MACHINE)
         key = _winreg.OpenKey(reg_hdl, self.WIN_REGISTRY_PATH)
         info = _winreg.QueryInfoKey(key)
-        
+
         # Find adapter key based on sub keys
         adapter_key = None
         adapter_path = None
@@ -241,7 +241,7 @@ class WindowsSpoofer(OsSpoofer):
                     adapter_path = path
                     break
                 else:
-                    _winreg.CloseKey(new_key) 
+                    _winreg.CloseKey(new_key)
             except WindowsError, err:
                 if err.errno == 2:  # register value not found, ok to ignore
                     pass
@@ -255,7 +255,7 @@ class WindowsSpoofer(OsSpoofer):
 
         # Registry path found update mac addr
         adapter_key = _winreg.OpenKey(reg_hdl, adapter_path, 0, _winreg.KEY_WRITE)
-        _winreg.SetValueEx(adapter_key, "NetworkAddress", 0, _winreg.REG_SZ, mac) 
+        _winreg.SetValueEx(adapter_key, "NetworkAddress", 0, _winreg.REG_SZ, mac)
         _winreg.CloseKey(adapter_key)
         _winreg.CloseKey(key)
         _winreg.CloseKey(reg_hdl)
@@ -342,7 +342,7 @@ class MacSpoofer(OsSpoofer):
         # For some reason this seems to be required even when changing a
         # non-airport device.
         subprocess.check_call([
-            PATH_TO_AIRPORT,
+            MacSpoofer.PATH_TO_AIRPORT,
             '-z'
         ])
 
@@ -407,7 +407,7 @@ def find_interfaces(targets=None):
         MacOS & Linux this is the interface name in ifconfig
         Windows this is the network adapter name in ipconfig
     """
-    # Wrapper to interface handles encapsulating objects 
+    # Wrapper to interface handles encapsulating objects
     spoofer = get_os_spoofer()
     return spoofer.find_interfaces(targets)
 
@@ -426,7 +426,7 @@ def find_interface(targets=None):
 
 def set_interface_mac(device, mac, port=None):
     """
-    Sets the mac address for given `device` to `mac`. 
+    Sets the mac address for given `device` to `mac`.
 
     Device varies by platform:
         MacOS & Linux this is the interface name in ifconfig
