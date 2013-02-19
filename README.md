@@ -5,12 +5,13 @@ should be. The biggest annoyance is that the Wi-Fi card (Airport) needs to be
 *manually* disassociated from any connected networks in order for the change
 to be applied correctly. Doing this manually every time is tedious and lame.
 
-Instead of doing that, just run this Python script and change your MAC address
-in one command.
+Instead of doing that, just run this Python script and change your MAC address in one command.
+
+**SpoofMAC now supports OS X (10.7+), Windows, and most Linux flavors.**
 
 # Installation
 
-You can install from PyPI using `easy_install` or `pip`:
+You can install from PyPI using `pip` or `easy_install`:
 
 ```
 pip install SpoofMAC
@@ -34,9 +35,18 @@ see up-to-date usage instructions by typing `spoof-mac --help`.
 
 Some short usage examples.
 
+### List available devices:
+
+```bash
+spoof-mac list
+- "Ethernet" on device "en0" with MAC address 70:56:51:BE:B3:00
+- "Wi-Fi" on device "en1" with MAC address 70:56:51:BE:B3:01 currently set to 70:56:51:BE:B3:02
+- "Bluetooth PAN" on device "en1"
+```
+
 ### List available devices, but only those on wifi:
 
-```
+```bash
 spoof-mac list --wifi
 - "Wi-Fi" on device "en0" with MAC address 70:56:51:BE:B3:6F
 ```
@@ -44,19 +54,20 @@ spoof-mac list --wifi
 ### Randomize MAC address *(requires root)*
 
 You can use the hardware port name, such as:
-```
+
+```bash
 spoof-mac randomize wi-fi
 ```
 
 or the device name, such as:
 
-```
+```bash
 spoof-mac randomize en0
 ```
 
 ### Set device MAC address to something specific *(requires root)*
 
-```
+```bash
 spoof-mac set 00:00:00:00:00:00 en0
 ```
 
@@ -66,13 +77,16 @@ While not always possible (because the original physical MAC isn't
 available), you can try setting the MAC address of a device back
 to its burned-in address using `reset`:
 
-```
+```bash
 spoof-mac reset wi-fi
 ```
 
 (older versions of OS X may call it "airport" instead of "wi-fi")
 
-Another option to reset your MAC address is to simply restart your computer. OS X doesn't store changes to your MAC address between restarts. If you want to make change your MAC address and have it persist between restarts, read the next section.
+Another option to reset your MAC address is to simply restart your computer.
+OS X doesn't store changes to your MAC address between restarts. If you want
+to make change your MAC address and have it persist between restarts, read
+the next section.
 
 
 ## Optional: Run automatically at startup
@@ -109,22 +123,20 @@ By default, the above will randomize your MAC address on computer startup. You c
 sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
 ```
 
-## Supported OSes
-
-**SpoofMAC only supports OS X (10.7+).** However, there are excellent tools for changing your MAC address on other OSes. For Linux, you can use the excellent [MAC Changer](http://www.alobbs.com/macchanger). For Windows, you can use [MACshift](http://devices.natetrue.com/macshift/), or [SMAC](http://www.klcconsulting.net/smac/).
-
 
 ## Changelog
 
-- 1.1.1 Fix "ValueError: too many values to unpack" error
-- 1.1.0 Fix regression: List command now shows current MAC address
-- 1.0.0 Complete rewrite to conform to PEP8 (thanks Tyler!)
-- 0.0.0 Original version by Feross
+- 1.2.0 - Add Windows and Linux support (thanks CJ!)
+- 1.1.1 - Fix "ValueError: too many values to unpack" error
+- 1.1.0 - Fix regression: List command now shows current MAC address
+- 1.0.0 - Complete rewrite to conform to PEP8 (thanks Tyler!)
+- 0.0.0 - Original version (by Feross)
 
 ## Contributors
 
-- Feross Aboukhadijeh <http://feross.org>
-- Tyler Kennedy <http://www.tkte.ch>
+- Feross Aboukhadijeh [http://feross.org]
+- Tyler Kennedy [http://www.tkte.ch]
+- CJ Barker [cjbarker@gmail.com]
 
 *Improvements welcome! (please add yourself to the list)*
 
