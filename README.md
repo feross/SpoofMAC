@@ -90,11 +90,11 @@ to make change your MAC address and have it persist between restarts, read
 the next section.
 
 
-### Optional: Run automatically at startup
+## Optional: Run automatically at startup
 
 OS X doesn't let you permanently change your MAC address. Every time you restart your computer, your address gets reset back to whatever it was before. Fortunately, SpoofMAC can easily be set to run at startup time so your computer will always have the MAC address you want.
 
-#### Startup Installation Instructions
+### Startup Installation Instructions
 
 Run the following commands in Terminal:
 
