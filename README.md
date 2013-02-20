@@ -1,13 +1,14 @@
-# SpoofMAC - Spoof your MAC address in Mac OS X, Linux and Windows
+# SpoofMAC - The easiest way to spoof your MAC address
+
+**Supports Mac OS X (10.7+), Windows, and most Linux flavors.**
 
 I made this because changing your MAC address in Mac OS X is harder than it
 should be. The biggest annoyance is that the Wi-Fi card (Airport) needs to be
 *manually* disassociated from any connected networks in order for the change
 to be applied correctly. Doing this manually every time is tedious and lame.
 
-Instead of doing that, just run this Python script and change your MAC address in one command.
-
-**SpoofMAC now supports OS X (10.7+), Windows, and most Linux flavors.**
+Instead of doing that, just run this Python script and change your MAC address
+in one command. *Now for Windows and Linux, too!*
 
 # Installation
 
