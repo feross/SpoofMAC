@@ -10,7 +10,7 @@ to be applied correctly. Doing this manually every time is tedious and lame.
 Instead of doing that, just run this Python script and change your MAC address
 in one command. *Now for Windows and Linux, too!*
 
-# Installation
+## Installation
 
 You can install from PyPI using `pip` or `easy_install`:
 
@@ -27,16 +27,16 @@ cd SpoofMAC
 python setup.py install
 ```
 
-# Usage
+## Usage
 
 SpoofMAC installs a command-line script called `spoof-mac`. You can always
 see up-to-date usage instructions by typing `spoof-mac --help`.
 
-## Examples
+### Examples
 
 Some short usage examples.
 
-### List available devices:
+#### List available devices:
 
 ```bash
 spoof-mac list
@@ -45,14 +45,14 @@ spoof-mac list
 - "Bluetooth PAN" on device "en1"
 ```
 
-### List available devices, but only those on wifi:
+#### List available devices, but only those on wifi:
 
 ```bash
 spoof-mac list --wifi
 - "Wi-Fi" on device "en0" with MAC address 70:56:51:BE:B3:6F
 ```
 
-### Randomize MAC address *(requires root)*
+#### Randomize MAC address *(requires root)*
 
 You can use the hardware port name, such as:
 
@@ -66,13 +66,13 @@ or the device name, such as:
 spoof-mac randomize en0
 ```
 
-### Set device MAC address to something specific *(requires root)*
+#### Set device MAC address to something specific *(requires root)*
 
 ```bash
 spoof-mac set 00:00:00:00:00:00 en0
 ```
 
-### Reset device to its original MAC address *(requires root)*
+#### Reset device to its original MAC address *(requires root)*
 
 While not always possible (because the original physical MAC isn't
 available), you can try setting the MAC address of a device back
@@ -90,11 +90,11 @@ to make change your MAC address and have it persist between restarts, read
 the next section.
 
 
-## Optional: Run automatically at startup
+### Optional: Run automatically at startup
 
 OS X doesn't let you permanently change your MAC address. Every time you restart your computer, your address gets reset back to whatever it was before. Fortunately, SpoofMAC can easily be set to run at startup time so your computer will always have the MAC address you want.
 
-### Startup Installation Instructions
+#### Startup Installation Instructions
 
 Run the following commands in Terminal:
 
