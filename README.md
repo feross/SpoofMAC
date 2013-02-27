@@ -12,7 +12,7 @@ in one command. *Now for Windows and Linux, too!*
 
 ## Installation
 
-You can install from PyPI using `pip` or `easy_install`:
+You can install from [PyPI](https://pypi.python.org/pypi/SpoofMAC/) using `pip` or `easy_install`:
 
 ```
 pip install SpoofMAC
