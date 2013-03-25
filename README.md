@@ -27,6 +27,8 @@ cd SpoofMAC
 python setup.py install
 ```
 
+If you're not using the system Python (because you use Homebrew, for example), make sure you add '/usr/local/share/python/' (or equivalent) to your path.
+
 ## Usage
 
 SpoofMAC installs a command-line script called `spoof-mac`. You can always
