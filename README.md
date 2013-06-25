@@ -1,6 +1,6 @@
-# SpoofMAC - The easiest way to spoof your MAC address
+# SpoofMAC - Easily spoof your MAC address
 
-### Supports Mac OS X (10.7+), Windows, and most Linux flavors.
+### For OS X, Windows, and Linux (most flavors)
 
 I made this because changing your MAC address in Mac OS X is harder than it
 should be. The biggest annoyance is that the Wi-Fi card (Airport) needs to be
