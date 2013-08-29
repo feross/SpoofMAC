@@ -1,5 +1,6 @@
 #!/bin/sh
 . /etc/rc.common
+PATH=/usr/local/bin:$PATH
 
 StartService ()
 {
