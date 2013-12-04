@@ -1,4 +1,4 @@
-# SpoofMAC - Easily spoof your MAC address
+# SpoofMAC - Spoof your MAC address
 
 ### For OS X, Windows, and Linux (most flavors) 
 
