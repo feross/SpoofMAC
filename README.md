@@ -29,6 +29,8 @@ python setup.py install
 
 If you're not using the system Python (because you use Homebrew, for example), make sure you add '/usr/local/share/python/' (or equivalent) to your path.
 
+Or, consider using **[spoof](https://github.com/feross/spoof)**, a node.js port of this package.
+
 ## Usage
 
 SpoofMAC installs a command-line script called `spoof-mac`. You can always
@@ -126,7 +128,6 @@ By default, the above will randomize your MAC address on computer startup. You c
 sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
 ```
 
-
 ## Changelog
 
 - 1.2.1 - Fix line endings (dos2unix)
@@ -143,6 +144,10 @@ sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
 - CJ Barker [cjbarker@gmail.com]
 
 *Improvements welcome! (please add yourself to the list)*
+
+## Ports
+
+- [spoof](https://github.com/feross/spoof) - node.js
 
 ## MIT License
 
