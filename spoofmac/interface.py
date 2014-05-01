@@ -391,7 +391,7 @@ def get_os_spoofer():
     if sys.platform == 'win32':
         spoofer = WindowsSpoofer()
     elif sys.platform == 'darwin':
-	    spoofer = MacSpoofer()
+        spoofer = MacSpoofer()
     elif sys.platform.startswith('linux'):
         spoofer = LinuxSpoofer()
     else:
