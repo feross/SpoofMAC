@@ -21,6 +21,9 @@ Options:
 import sys
 import os
 
+if sys.platform == 'win32':
+    import ctypes
+
 from docopt import docopt
 
 from spoofmac.version import __version__
@@ -58,10 +61,10 @@ def list_interfaces(args, spoofer):
             line.append('with MAC address {mac}'.format(mac=address))
         if current_address and address != current_address:
             line.append('currently set to {mac}'.format(mac=current_address))
-        print(' '.join(line))
+        print((' '.join(line)))
 
 
-def main(args, uid):
+def main(args, root_or_admin):
     spoofer = None
 
     try:
@@ -75,11 +78,12 @@ def main(args, uid):
         for target in args['<devices>']:
             # Fill out the details for `target`, which could be a Hardware
             # Port or a literal device.
+            print("Debuf:",target)
             result = find_interface(target)
             if result is None:
-                print('- couldn\'t find the device for {target}'.format(
+                print(('- couldn\'t find the device for {target}'.format(
                     target=target
-                ))
+                )))
                 return INVALID_TARGET
 
             port, device, address, current_address = result
@@ -89,25 +93,29 @@ def main(args, uid):
                 target_mac = args['<mac>']
             elif args['reset']:
                 if address is None:
-                    print('- {target} missing hardware MAC'.format(
+                    print(('- {target} missing hardware MAC'.format(
                         target=target
-                    ))
+                    )))
                     continue
                 target_mac = address
 
             if not MAC_ADDRESS_R.match(target_mac):
-                print('- {mac} is not a valid MAC address'.format(
+                print(('- {mac} is not a valid MAC address'.format(
                     mac=target_mac
-                ))
+                )))
                 return INVALID_MAC_ADDR
 
-            if uid != 0:
-                print('Error: Must run this as root (or with sudo) to set MAC addresses')
-                return NON_ROOT_USER
+            if not root_or_admin:
+                if sys.platform == 'win32':
+                    print('Error: Must run this with administrative privileges to set MAC addresses')
+                    return NON_ROOT_USER
+                else:
+                    print('Error: Must run this as root (or with sudo) to set MAC addresses')
+                    return NON_ROOT_USER
 
             set_interface_mac(device, target_mac, port)
     elif args['normalize']:
-        print(normalize_mac_address(args['<mac>']))
+        print((normalize_mac_address(args['<mac>'])))
 
     else:
         print('Error: Invalid arguments - check help usage')
@@ -120,4 +128,9 @@ def main(args, uid):
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version=__version__)
-    sys.exit(main(arguments, os.geteuid()))
+    try:
+        root_or_admin = os.geteuid() == 0
+    except AttributeError:
+        root_or_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
+
+    sys.exit(main(arguments, root_or_admin))
