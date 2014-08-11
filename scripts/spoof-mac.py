@@ -78,7 +78,7 @@ def main(args, root_or_admin):
         for target in args['<devices>']:
             # Fill out the details for `target`, which could be a Hardware
             # Port or a literal device.
-            print("Debuf:",target)
+            #print("Debuf:",target)
             result = find_interface(target)
             if result is None:
                 print(('- couldn\'t find the device for {target}'.format(
