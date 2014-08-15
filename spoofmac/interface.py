@@ -135,7 +135,7 @@ class WindowsSpoofer(OsSpoofer):
             query = query.encode('ascii')
             match = re.search(query,result)
             cmd = 'devcon restart "PCI\\' + str(match.group(2).decode('ascii'))+ '"'
-            subprocess.call(cmd)
+            subprocess.check_output(cmd, stderr=subprocess.STDOUT)
             
         else:
             cmd = "netsh interface set interface \"" + device + "\" disable"
