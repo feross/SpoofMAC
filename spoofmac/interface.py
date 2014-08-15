@@ -11,7 +11,10 @@ import subprocess
 import sys
 
 if sys.platform == 'win32':
-    import winreg
+    try:
+        import winreg
+    except ImportError:
+        import _winreg as winreg
 
 from spoofmac.util import MAC_ADDRESS_R
 

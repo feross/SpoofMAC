@@ -81,9 +81,9 @@ def main(args, root_or_admin):
             #print("Debuf:",target)
             result = find_interface(target)
             if result is None:
-                print(('- couldn\'t find the device for {target}'.format(
+                print('- couldn\'t find the device for {target}'.format(
                     target=target
-                )))
+                ))
                 return INVALID_TARGET
 
             port, device, address, current_address = result
