@@ -11,6 +11,7 @@ import subprocess
 import sys
 
 if sys.platform == 'win32':
+    import platform
     try:
         import winreg
     except ImportError:
@@ -123,10 +124,24 @@ class WindowsSpoofer(OsSpoofer):
         """
         Disables and then re-enables device interface
         """
-        cmd = "netsh interface set interface \"" + device + "\" disable"
-        subprocess.call(cmd)
-        cmd = "netsh interface set interface \"" + device + "\" enable"
-        subprocess.call(cmd)
+        if platform.release() == 'XP':
+            description, adapter_name, address, current_address = find_interface(device)
+            cmd = "devcon hwids =net"
+            try:
+                result = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+            except FileNotFoundError:
+                raise
+            query = '('+description+'\r\n\s*.*:\r\n\s*)PCI\\\\(([A-Z]|[0-9]|_|&)*)'
+            query = query.encode('ascii')
+            match = re.search(query,result)
+            cmd = 'devcon restart "PCI\\' + str(match.group(2).decode('ascii'))+ '"'
+            subprocess.call(cmd)
+            
+        else:
+            cmd = "netsh interface set interface \"" + device + "\" disable"
+            subprocess.call(cmd)
+            cmd = "netsh interface set interface \"" + device + "\" enable"
+            subprocess.call(cmd)
 
     def get_ipconfig_all(self):
         result = subprocess.check_output(["ipconfig", "/all"], stderr=subprocess.STDOUT)
