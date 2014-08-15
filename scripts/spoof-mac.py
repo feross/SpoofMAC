@@ -61,7 +61,7 @@ def list_interfaces(args, spoofer):
             line.append('with MAC address {mac}'.format(mac=address))
         if current_address and address != current_address:
             line.append('currently set to {mac}'.format(mac=current_address))
-        print((' '.join(line)))
+        print(' '.join(line))
 
 
 def main(args, root_or_admin):
@@ -93,16 +93,16 @@ def main(args, root_or_admin):
                 target_mac = args['<mac>']
             elif args['reset']:
                 if address is None:
-                    print(('- {target} missing hardware MAC'.format(
+                    print('- {target} missing hardware MAC'.format(
                         target=target
-                    )))
+                    ))
                     continue
                 target_mac = address
 
             if not MAC_ADDRESS_R.match(target_mac):
-                print(('- {mac} is not a valid MAC address'.format(
+                print('- {mac} is not a valid MAC address'.format(
                     mac=target_mac
-                )))
+                ))
                 return INVALID_MAC_ADDR
 
             if not root_or_admin:
@@ -115,7 +115,7 @@ def main(args, root_or_admin):
 
             set_interface_mac(device, target_mac, port)
     elif args['normalize']:
-        print((normalize_mac_address(args['<mac>'])))
+        print(normalize_mac_address(args['<mac>']))
 
     else:
         print('Error: Invalid arguments - check help usage')
