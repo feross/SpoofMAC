@@ -12,6 +12,7 @@ import sys
 
 if sys.platform == 'win32':
     import platform
+    from spoofmac.util import normalise_mac_address_windows as normalise
     try:
         import winreg
     except ImportError:
@@ -273,7 +274,7 @@ class WindowsSpoofer(OsSpoofer):
 
         # Registry path found update mac addr
         adapter_key = winreg.OpenKey(reg_hdl, adapter_path, 0, winreg.KEY_WRITE)
-        winreg.SetValueEx(adapter_key, "NetworkAddress", 0, winreg.REG_SZ, mac)
+        winreg.SetValueEx(adapter_key, "NetworkAddress", 0, winreg.REG_SZ, normalise(mac)
         winreg.CloseKey(adapter_key)
         winreg.CloseKey(key)
         winreg.CloseKey(reg_hdl)
