@@ -105,10 +105,10 @@ class LinuxSpoofer(OsSpoofer):
         """
         # turn off device & set mac
         cmd = "ifconfig {} down hw ether {}".format(device, mac)
-        subprocess.call(cmd)
+        subprocess.call(cmd.split())
         # turn on device
         cmd = "ifconfig {} up".format(device)
-        subprocess.call(cmd)
+        subprocess.call(cmd.split())
 
 class WindowsSpoofer(OsSpoofer):
     """
