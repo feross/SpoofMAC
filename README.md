@@ -1,6 +1,6 @@
 # SpoofMAC - Spoof your MAC address
 
-### For OS X, Windows, and Linux (most flavors) 
+### For OS X, Windows, and Linux (most flavors)
 
 I made this because changing your MAC address in Mac OS X is harder than it
 should be. The biggest annoyance is that the Wi-Fi card (Airport) needs to be
@@ -130,6 +130,8 @@ sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
 
 ## Changelog
 
+- **2.0.0 - Python 3 support**
+- 1.2.2 - Fix for Ubuntu 14.04
 - 1.2.1 - Fix line endings (dos2unix)
 - **1.2.0 - Add Windows and Linux support (thanks CJ!)**
 - 1.1.1 - Fix "ValueError: too many values to unpack" error
