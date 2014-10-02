@@ -21,6 +21,9 @@ Options:
 import sys
 import os
 
+if sys.platform == 'win32':
+    import ctypes
+
 from docopt import docopt
 
 from spoofmac.version import __version__
@@ -61,7 +64,7 @@ def list_interfaces(args, spoofer):
         print(' '.join(line))
 
 
-def main(args, uid):
+def main(args, root_or_admin):
     spoofer = None
 
     try:
@@ -75,6 +78,7 @@ def main(args, uid):
         for target in args['<devices>']:
             # Fill out the details for `target`, which could be a Hardware
             # Port or a literal device.
+            #print("Debuf:",target)
             result = find_interface(target)
             if result is None:
                 print('- couldn\'t find the device for {target}'.format(
@@ -101,9 +105,13 @@ def main(args, uid):
                 ))
                 return INVALID_MAC_ADDR
 
-            if uid != 0:
-                print('Error: Must run this as root (or with sudo) to set MAC addresses')
-                return NON_ROOT_USER
+            if not root_or_admin:
+                if sys.platform == 'win32':
+                    print('Error: Must run this with administrative privileges to set MAC addresses')
+                    return NON_ROOT_USER
+                else:
+                    print('Error: Must run this as root (or with sudo) to set MAC addresses')
+                    return NON_ROOT_USER
 
             set_interface_mac(device, target_mac, port)
     elif args['normalize']:
@@ -120,4 +128,9 @@ def main(args, uid):
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version=__version__)
-    sys.exit(main(arguments, os.geteuid()))
+    try:
+        root_or_admin = os.geteuid() == 0
+    except AttributeError:
+        root_or_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
+
+    sys.exit(main(arguments, root_or_admin))
