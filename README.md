@@ -107,25 +107,26 @@ Run the following commands in Terminal:
 mkdir ~/Scripts
 git clone https://github.com/feross/SpoofMAC.git ~/Scripts/SpoofMAC
 
-# Copy files to the OS X startup folder
+# Edit startup file according to your system config
 cd ~/Scripts/SpoofMAC
-sudo mkdir /Library/StartupItems/SpoofMAC
-sudo cp misc/SpoofMAC misc/StartupParameters.plist /Library/StartupItems/SpoofMAC
+cat misc/local.macspoof.plist | sed "s|<string>/usr/local/bin/spoof-mac.py</string>|<string>FOO</string>|" | tee misc/local.macspoof.plist
+
+# Copy file to the OS X launchd folder
+sudo cp misc/local.macspoof.plist misc/StartupParameters.plist /Library/LaunchDaemons
 
 # Set file permissions
-cd /Library/StartupItems/SpoofMAC
-sudo chown root:wheel SpoofMAC StartupParameters.plist
-sudo chmod 0755 SpoofMAC
-sudo chmod 0644 StartupParameters.plist
+cd /Library/LaunchDaemons
+sudo chown root:wheel local.macspoof.plist
+sudo chmod 0644 local.macspoof.plist
 
 # Delete
 rm -rf ~/Scripts/SpoofMAC
 ```
 
-By default, the above will randomize your MAC address on computer startup. You can change the command that gets run at startup by editing the `/Library/StartupItems/SpoofMAC/SpoofMAC` file.
+By default, the above will randomize your MAC address on computer startup. You can change the command that gets run at startup by editing the `/Library/LaunchDaemons/local.macspoof.plist` file.
 
 ```bash
-sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
+sudo vim /Library/LaunchDaemons/local.macspoof.plist
 ```
 
 ## Changelog
