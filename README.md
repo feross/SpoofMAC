@@ -103,27 +103,22 @@ OS X doesn't let you permanently change your MAC address. Every time you restart
 First, make sure SpoofMAC is [installed](#installation). Then, run the following commands in Terminal:
 
 ```bash
-# Clone the code
-mkdir ~/Scripts
-git clone https://github.com/feross/SpoofMAC.git ~/Scripts/SpoofMAC
+# Download the startup file for launchd
+curl https://raw.githubusercontent.com/feross/SpoofMAC/master/misc/local.macspoof.plist > local.macspoof.plist
 
 # Customize location of `spoof-mac.py` to match your system
-cd ~/Scripts/SpoofMAC
-cat misc/local.macspoof.plist | sed "s|/usr/local/bin/spoof-mac.py|`which spoof-mac.py`|" | tee misc/local.macspoof.plist
+cat local.macspoof.plist | sed "s|/usr/local/bin/spoof-mac.py|`which spoof-mac.py`|" | tee local.macspoof.plist
 
 # Copy file to the OS X launchd folder
-sudo cp misc/local.macspoof.plist /Library/LaunchDaemons
+sudo cp local.macspoof.plist /Library/LaunchDaemons
 
 # Set file permissions
 cd /Library/LaunchDaemons
 sudo chown root:wheel local.macspoof.plist
 sudo chmod 0644 local.macspoof.plist
-
-# Delete
-rm -rf ~/Scripts/SpoofMAC
 ```
 
-By default, the above will randomize your MAC address on computer startup. You can change the command that gets run at startup by editing the `/Library/LaunchDaemons/local.macspoof.plist` file.
+By default, the above will randomize your MAC address on computer startup. You can change the command that gets run at startup by editing the `local.macspoof.plist` file.
 
 ```bash
 sudo vim /Library/LaunchDaemons/local.macspoof.plist
