@@ -33,8 +33,8 @@ Or, consider using **[spoof](https://github.com/feross/spoof)**, a node.js port 
 
 ## Usage
 
-SpoofMAC installs a command-line script called `spoof-mac`. You can always
-see up-to-date usage instructions by typing `spoof-mac --help`.
+SpoofMAC installs a command-line script called `spoof-mac.py`. You can always
+see up-to-date usage instructions by typing `spoof-mac.py --help`.
 
 ### Examples
 
@@ -43,7 +43,7 @@ Some short usage examples.
 #### List available devices:
 
 ```bash
-spoof-mac list
+spoof-mac.py list
 - "Ethernet" on device "en0" with MAC address 70:56:51:BE:B3:00
 - "Wi-Fi" on device "en1" with MAC address 70:56:51:BE:B3:01 currently set to 70:56:51:BE:B3:02
 - "Bluetooth PAN" on device "en1"
@@ -52,7 +52,7 @@ spoof-mac list
 #### List available devices, but only those on wifi:
 
 ```bash
-spoof-mac list --wifi
+spoof-mac.py list --wifi
 - "Wi-Fi" on device "en0" with MAC address 70:56:51:BE:B3:6F
 ```
 
@@ -61,19 +61,19 @@ spoof-mac list --wifi
 You can use the hardware port name, such as:
 
 ```bash
-spoof-mac randomize wi-fi
+spoof-mac.py randomize wi-fi
 ```
 
 or the device name, such as:
 
 ```bash
-spoof-mac randomize en0
+spoof-mac.py randomize en0
 ```
 
 #### Set device MAC address to something specific *(requires root)*
 
 ```bash
-spoof-mac set 00:00:00:00:00:00 en0
+spoof-mac.py set 00:00:00:00:00:00 en0
 ```
 
 #### Reset device to its original MAC address *(requires root)*
@@ -83,7 +83,7 @@ available), you can try setting the MAC address of a device back
 to its burned-in address using `reset`:
 
 ```bash
-spoof-mac reset wi-fi
+spoof-mac.py reset wi-fi
 ```
 
 (older versions of OS X may call it "airport" instead of "wi-fi")
@@ -107,25 +107,26 @@ Run the following commands in Terminal:
 mkdir ~/Scripts
 git clone https://github.com/feross/SpoofMAC.git ~/Scripts/SpoofMAC
 
-# Copy files to the OS X startup folder
+# Edit startup file according to your system config
 cd ~/Scripts/SpoofMAC
-sudo mkdir /Library/StartupItems/SpoofMAC
-sudo cp misc/SpoofMAC misc/StartupParameters.plist /Library/StartupItems/SpoofMAC
+cat misc/local.macspoof.plist | sed "s|<string>/usr/local/bin/spoof-mac.py</string>|<string>FOO</string>|" | tee misc/local.macspoof.plist
+
+# Copy file to the OS X launchd folder
+sudo cp misc/local.macspoof.plist misc/StartupParameters.plist /Library/LaunchDaemons
 
 # Set file permissions
-cd /Library/StartupItems/SpoofMAC
-sudo chown root:wheel SpoofMAC StartupParameters.plist
-sudo chmod 0755 SpoofMAC
-sudo chmod 0644 StartupParameters.plist
+cd /Library/LaunchDaemons
+sudo chown root:wheel local.macspoof.plist
+sudo chmod 0644 local.macspoof.plist
 
 # Delete
 rm -rf ~/Scripts/SpoofMAC
 ```
 
-By default, the above will randomize your MAC address on computer startup. You can change the command that gets run at startup by editing the `/Library/StartupItems/SpoofMAC/SpoofMAC` file.
+By default, the above will randomize your MAC address on computer startup. You can change the command that gets run at startup by editing the `/Library/LaunchDaemons/local.macspoof.plist` file.
 
 ```bash
-sudo vim /Library/StartupItems/SpoofMAC/SpoofMAC
+sudo vim /Library/LaunchDaemons/local.macspoof.plist
 ```
 
 ## Changelog

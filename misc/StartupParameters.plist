@@ -1,6 +1,0 @@
-{
-    Description      = "SpoofMAC";
-    Provides         = ("SpoofMAC");
-    Requires         = ("Network", "Disks");
-    OrderPreference  = "None";
-}
