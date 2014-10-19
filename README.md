@@ -100,19 +100,19 @@ OS X doesn't let you permanently change your MAC address. Every time you restart
 
 ### Startup Installation Instructions
 
-Run the following commands in Terminal:
+First, make sure SpoofMAC is [installed](#installation). Then, run the following commands in Terminal:
 
 ```bash
 # Clone the code
 mkdir ~/Scripts
 git clone https://github.com/feross/SpoofMAC.git ~/Scripts/SpoofMAC
 
-# Edit startup file according to your system config
+# Customize location of `spoof-mac.py` to match your system
 cd ~/Scripts/SpoofMAC
-cat misc/local.macspoof.plist | sed "s|<string>/usr/local/bin/spoof-mac.py</string>|<string>FOO</string>|" | tee misc/local.macspoof.plist
+cat misc/local.macspoof.plist | sed "s|/usr/local/bin/spoof-mac.py|`which spoof-mac.py`|" | tee misc/local.macspoof.plist
 
 # Copy file to the OS X launchd folder
-sudo cp misc/local.macspoof.plist misc/StartupParameters.plist /Library/LaunchDaemons
+sudo cp misc/local.macspoof.plist /Library/LaunchDaemons
 
 # Set file permissions
 cd /Library/LaunchDaemons
