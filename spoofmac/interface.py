@@ -45,7 +45,7 @@ class LinuxSpoofer(OsSpoofer):
     Linux platform specfic implementation for MAC spoofing.
     """
     def get_interface_mac(self, device):
-        result = subprocess.check_output(["ifconfig", device], stderr=subprocess.STDOUT)
+        result = subprocess.check_output(["ifconfig", device], stderr=subprocess.STDOUT, universal_newlines=True)
         m = re.search("(?<=HWaddr\\s)(.*)", result)
         if not hasattr(m, "group") or m.group(0) == None:
             return None
@@ -63,7 +63,7 @@ class LinuxSpoofer(OsSpoofer):
         # - the adapter name/device associated with this, if any,
         # - the MAC address, if any
 
-        output = subprocess.check_output(["ifconfig"], stderr=subprocess.STDOUT)
+        output = subprocess.check_output(["ifconfig"], stderr=subprocess.STDOUT, universal_newlines=True)
 
         # search for specific adapter gobble through mac address
         details = re.findall("(.*?)HWaddr(.*)", output, re.MULTILINE)
@@ -129,7 +129,7 @@ class WindowsSpoofer(OsSpoofer):
             description, adapter_name, address, current_address = find_interface(device)
             cmd = "devcon hwids =net"
             try:
-                result = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+                result = subprocess._output(cmd, stderr=subprocess.STDOUT)
             except FileNotFoundError:
                 raise
             query = '('+description+'\r\n\s*.*:\r\n\s*)PCI\\\\(([A-Z]|[0-9]|_|&)*)'
