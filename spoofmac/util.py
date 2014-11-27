@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 __all__ = ('MAC_ADDRESS_R', 'random_mac_address')
 import re
 import random

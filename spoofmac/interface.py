@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 __all__ = (
     'find_interfaces',
     'find_interface',
