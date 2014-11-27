@@ -129,7 +129,7 @@ class WindowsSpoofer(OsSpoofer):
             description, adapter_name, address, current_address = find_interface(device)
             cmd = "devcon hwids =net"
             try:
-                result = subprocess._output(cmd, stderr=subprocess.STDOUT)
+                result = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
             except FileNotFoundError:
                 raise
             query = '('+description+'\r\n\s*.*:\r\n\s*)PCI\\\\(([A-Z]|[0-9]|_|&)*)'
