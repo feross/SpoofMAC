@@ -310,7 +310,7 @@ class MacSpoofer(OsSpoofer):
             subprocess.check_output((
                 'networksetup',
                 '-listallhardwareports'
-            )), re.MULTILINE
+            ), universal_newlines=True), re.MULTILINE
         )
         # Split the results into chunks of 3 (for our three fields) and yield
         # those that match `targets`.
@@ -390,7 +390,7 @@ class MacSpoofer(OsSpoofer):
             result = subprocess.check_output([
                 'ifconfig',
                 device
-            ], stderr=subprocess.STDOUT)
+            ], stderr=subprocess.STDOUT, universal_newlines=True)
         except subprocess.CalledProcessError:
             return None
 
