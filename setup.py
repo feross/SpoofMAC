@@ -30,7 +30,8 @@ if __name__ == '__main__':
             'docopt'
         ],
         scripts=[
-            'scripts/spoof-mac.py'
+            'scripts/spoof-mac.py',
+			'scripts/spoof-mac'
         ],
         license='MIT'
     )
