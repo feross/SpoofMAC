@@ -1,2 +1,2 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf8 -*-
 __version__ = '2.0.0'
