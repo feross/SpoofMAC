@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 """
 Easily spoof your MAC address in OS X, Windows & Linux.
 """
@@ -30,7 +30,8 @@ if __name__ == '__main__':
             'docopt'
         ],
         scripts=[
-            'scripts/spoof-mac.py'
+            'scripts/spoof-mac.py',
+			'scripts/spoof-mac'
         ],
         license='MIT'
     )

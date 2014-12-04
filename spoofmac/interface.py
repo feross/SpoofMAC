@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 __all__ = (
     'find_interfaces',
     'find_interface',
@@ -45,7 +45,7 @@ class LinuxSpoofer(OsSpoofer):
     Linux platform specfic implementation for MAC spoofing.
     """
     def get_interface_mac(self, device):
-        result = subprocess.check_output(["ifconfig", device], stderr=subprocess.STDOUT)
+        result = subprocess.check_output(["ifconfig", device], stderr=subprocess.STDOUT, universal_newlines=True)
         m = re.search("(?<=HWaddr\\s)(.*)", result)
         if not hasattr(m, "group") or m.group(0) == None:
             return None
@@ -63,7 +63,7 @@ class LinuxSpoofer(OsSpoofer):
         # - the adapter name/device associated with this, if any,
         # - the MAC address, if any
 
-        output = subprocess.check_output(["ifconfig"], stderr=subprocess.STDOUT)
+        output = subprocess.check_output(["ifconfig"], stderr=subprocess.STDOUT, universal_newlines=True)
 
         # search for specific adapter gobble through mac address
         details = re.findall("(.*?)HWaddr(.*)", output, re.MULTILINE)
@@ -310,7 +310,7 @@ class MacSpoofer(OsSpoofer):
             subprocess.check_output((
                 'networksetup',
                 '-listallhardwareports'
-            )), re.MULTILINE
+            ), universal_newlines=True), re.MULTILINE
         )
         # Split the results into chunks of 3 (for our three fields) and yield
         # those that match `targets`.
@@ -390,7 +390,7 @@ class MacSpoofer(OsSpoofer):
             result = subprocess.check_output([
                 'ifconfig',
                 device
-            ], stderr=subprocess.STDOUT)
+            ], stderr=subprocess.STDOUT, universal_newlines=True)
         except subprocess.CalledProcessError:
             return None
 
