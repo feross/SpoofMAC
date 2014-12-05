@@ -31,7 +31,7 @@ if __name__ == '__main__':
         ],
         scripts=[
             'scripts/spoof-mac.py',
-			'scripts/spoof-mac'
+	    'scripts/spoof-mac'
         ],
         license='MIT'
     )
