@@ -140,9 +140,9 @@ class WindowsSpoofer(OsSpoofer):
             
         else:
             cmd = "netsh interface set interface \"" + device + "\" disable"
-            subprocess.call(cmd)
+            subprocess.check_output(cmd)
             cmd = "netsh interface set interface \"" + device + "\" enable"
-            subprocess.call(cmd)
+            subprocess.check_output(cmd)
 
     def get_ipconfig_all(self):
         result = subprocess.check_output(["ipconfig", "/all"], stderr=subprocess.STDOUT)
@@ -261,7 +261,7 @@ class WindowsSpoofer(OsSpoofer):
                     break
                 else:
                     winreg.CloseKey(new_key)
-            except WindowsError as err:
+            except (WindowsError) as err:
                 if err.errno == 2:  # register value not found, ok to ignore
                     pass
                 else:
