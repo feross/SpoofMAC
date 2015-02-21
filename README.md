@@ -126,7 +126,8 @@ sudo vim /Library/LaunchDaemons/local.macspoof.plist
 
 ## Changelog
 
-- 2.0.2 - Compatibility bug fixes
+- 2.0.3 - More Python 2.7 compatibility fixes
+- 2.0.2 - Python 2.7 compatibility fixes
 - **2.0.0 - Python 3 support**
 - 1.2.2 - Fix for Ubuntu 14.04
 - 1.2.1 - Fix line endings (dos2unix)
