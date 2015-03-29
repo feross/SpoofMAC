@@ -126,6 +126,7 @@ sudo vim /Library/LaunchDaemons/local.macspoof.plist
 
 ## Changelog
 
+- 2.0.4 - Warn when trying to use a multicast address
 - 2.0.3 - More Python 2.7 compatibility fixes
 - 2.0.2 - Python 2.7 compatibility fixes
 - **2.0.0 - Python 3 support**
