@@ -91,7 +91,7 @@ def main(args, root_or_admin):
                 target_mac = random_mac_address(args['--local'])
             elif args['set']:
                 target_mac = args['<mac>']
-                if int(target_mac[1]) % 2:
+                if int(target_mac[1], 16) % 2:
                     print('Warning: The address you supplied is a multicast address and thus can not be used as a host address.')
             elif args['reset']:
                 if address is None:
