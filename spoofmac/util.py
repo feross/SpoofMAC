@@ -46,9 +46,9 @@ def random_mac_address(local_admin=True):
 	)
 		
 	mac = [
-	vendor[0],
-	vendor[1],
-	vendor[2],
+		vendor[0],
+		vendor[1],
+		vendor[2],
         random.randint(0x00, 0x7f),
         random.randint(0x00, 0xff),
         random.randint(0x00, 0xff)
