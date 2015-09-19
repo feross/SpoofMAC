@@ -42,12 +42,14 @@ def random_mac_address(local_admin=True):
 		(0x00,0x03,0xFF), #Microsoft Hyper-V, Virtual Server, Virtual PC
 		(0x00,0x1C,0x42), #Parallells 
 		(0x00,0x0F,0x4B), #Virtual Iron 4
-		(0x08,0x00,0x27)))#Sun Virtual Box
+		(0x08,0x00,0x27)) #Sun Virtual Box
+	)
+		
 
 	mac = [
-    	vendor[0],
-	    vendor[1],
-    	vendor[2],
+		vendor[0],
+		vendor[1],
+		vendor[2],
         random.randint(0x00, 0x7f),
         random.randint(0x00, 0xff),
         random.randint(0x00, 0xff)
