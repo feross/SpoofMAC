@@ -31,24 +31,23 @@ def random_mac_address(local_admin=True):
     """
     Generates and returns a random MAC address.
     """
-	# Randomly assign a Vendors VM MAC address.
-    # Which should decrease chance of colliding
-    # with existing devices.
-	vendor = random.SystemRandom().choice((
-		(0x00,0x05,0x69), #VMware MACs
-		(0x00,0x50,0x56), #VMware MACs
-		(0x00,0x0C,0x29), #VMware MACs
-		(0x00,0x16,0x3E), #Xen VMs
-		(0x00,0x03,0xFF), #Microsoft Hyper-V, Virtual Server, Virtual PC
-		(0x00,0x1C,0x42), #Parallells 
-		(0x00,0x0F,0x4B), #Virtual Iron 4
-		(0x08,0x00,0x27)) #Sun Virtual Box
-	)
-		
-	mac = [
-		vendor[0],
-		vendor[1],
-		vendor[2],
+    # Randomly assign a VM vendor's MAC address prefix, which should
+    # decrease chance of colliding with existing device's addresses.
+    vendor = random.SystemRandom().choice((
+        (0x00,0x05,0x69), #VMware MACs
+        (0x00,0x50,0x56), #VMware MACs
+        (0x00,0x0C,0x29), #VMware MACs
+        (0x00,0x16,0x3E), #Xen VMs
+        (0x00,0x03,0xFF), #Microsoft Hyper-V, Virtual Server, Virtual PC
+        (0x00,0x1C,0x42), #Parallells
+        (0x00,0x0F,0x4B), #Virtual Iron 4
+        (0x08,0x00,0x27)) #Sun Virtual Box
+    )
+
+    mac = [
+        vendor[0],
+        vendor[1],
+        vendor[2],
         random.randint(0x00, 0x7f),
         random.randint(0x00, 0xff),
         random.randint(0x00, 0xff)
