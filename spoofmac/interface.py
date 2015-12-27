@@ -144,8 +144,7 @@ class LinuxSpoofer(OsSpoofer):
         # - the adapter name/device associated with this, if any,
         # - the MAC address, if any
 
-        #output = subprocess.check_output(["ifconfig"], stderr=subprocess.STDOUT, universal_newlines=True)
-        output = subprocess.check_output(["ip addr"], stderr=subprocess.STDOUT, universal_newlines=True)
+        output = subprocess.check_output(["ifconfig"], stderr=subprocess.STDOUT, universal_newlines=True)
 
         # search for specific adapter gobble through mac address
         details = re.findall("(.*?)HWaddr(.*)", output, re.MULTILINE)
