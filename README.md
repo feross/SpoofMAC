@@ -126,6 +126,7 @@ sudo vim /Library/LaunchDaemons/local.macspoof.plist
 
 ## Changelog
 
+- 2.1.0 - Use `ip` command when available; `ifconfig` is deprecated on Arch Linux
 - 2.0.6 - Increase MAC address randomness
 - 2.0.5 - Allow 2nd character in MAC address to be a letter 
 - 2.0.4 - Warn when trying to use a multicast address
