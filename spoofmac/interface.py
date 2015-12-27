@@ -47,7 +47,7 @@ class LinuxSpooferIP(OsSpoofer):
     """
     def get_interface_mac(self, device):
         result = subprocess.check_output(["ip", "link", "show", device], stderr=subprocess.STDOUT, universal_newlines=True)
-        m = re.search("(?<=HWaddr\\s)(.*)", result)
+        m = re.search("(?<=\w\s)(.*)(?=\sbrd)", result)
         if not hasattr(m, "group") or m.group(0) == None:
             return None
         return m.group(0).strip()
