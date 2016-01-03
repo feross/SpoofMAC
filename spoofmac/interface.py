@@ -493,7 +493,7 @@ def get_os_spoofer():
     elif sys.platform == 'darwin':
         spoofer = MacSpoofer()
     elif sys.platform.startswith('linux'):
-        if os.path.exists("/usr/bin/ip"):
+        if os.path.exists("/usr/bin/ip") or os.path.exists("/bin/ip"):
             spoofer = LinuxSpooferIP()
         else:
             spoofer = LinuxSpoofer()
