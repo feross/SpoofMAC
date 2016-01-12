@@ -1,5 +1,7 @@
 # SpoofMAC - Spoof your MAC address
 
+### *NOTE: Consider using [spoof](https://github.com/feross/spoof), a node.js port of this package.*
+
 ### For OS X, Windows, and Linux (most flavors)
 
 I made this because changing your MAC address in Mac OS X is harder than it
