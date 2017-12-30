@@ -12,6 +12,19 @@ to be applied correctly. Doing this manually every time is tedious and lame.
 Instead of doing that, just run this Python script and change your MAC address
 in one command. *Now for Windows and Linux, too!*
 
+**Note for Windows 10:** While it may appear that this script does not work anymore, it does. The reason for this is that the change only appears in the Network Adapter properties in the Control Panel. Commands such as getmac or ipconfig will still show the original MAC address even though it has been changed.
+
+To see this for yourself, follow the below steps:
+
+1. Open Control Panel
+2. Click 'Network and Internet'
+3. Click 'Network and Sharing Center'
+4. On the panel to the left, click 'Change adapter settings'
+5. A new window will appear showing all of the network adapters. Right-click the one that is currently active/enabled, and click 'Properties'
+6. Near the top, click the button that says 'Configure'
+7. Another window will open. At the top, click the 'Advanced' tab.
+8. In the list to the left, select either 'Network Address' or 'Locally Administered Address'. This will depend on your system. You should see your MAC address in the text box to the right. This MAC address should change when you run this script on Windows 10. If the text box is empty and 'Not Present' is selected, run the script once to generate a new MAC address and follow the above steps. The 'Value' checkbox should now be selected and there should be a new MAC address in the text box.
+
 ## Installation
 
 You can install from [PyPI](https://pypi.python.org/pypi/SpoofMAC/) using `pip` or `easy_install`:
