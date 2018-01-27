@@ -12,7 +12,7 @@ to be applied correctly. Doing this manually every time is tedious and lame.
 Instead of doing that, just run this Python script and change your MAC address
 in one command. *Now for Windows and Linux, too!*
 
-**Note for Windows 10:** While it may appear that this script does not work anymore, it does. The reason for this is that the change only appears in the Network Adapter properties in the Control Panel. Commands such as getmac or ipconfig will still show the original MAC address even though it has been changed.
+**Note for Windows 10:** While it may appear that this script does not work anymore, it does. The reason for this is that the change only appears in the Network Adapter properties in the Control Panel. Commands such as getmac or ipconfig will still show the original MAC address even though it has been changed. (**Note:** this actually appears to depend on the NIC (Network Interface Card). I tested it with my desktop and ipconfig showed the change, however it does not show the change on my laptop)
 
 To see this for yourself, follow the below steps:
 
